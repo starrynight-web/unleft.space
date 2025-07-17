@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>UNLEFT LLC - Powering Digital Possibilities</title>
+    <link href="https://fonts.cdnfonts.com/css/azonix" rel="stylesheet">
     <style>
         :root {
             --space-blue: #0f3460;
@@ -121,7 +122,7 @@
             height: 100%;
             z-index: 0;
             pointer-events: none;
-            background: linear-gradient(135deg, var(--space-dark) 0%, var(--space-navy) 35%, var(--space-blue) 100%);
+            background: linear-gradient(135deg, var(--space-dark) 0%, var(--space-navy) 35%, var(--space-purple) 100%);
         }
 
         /* Navigation */
@@ -131,6 +132,7 @@
             width: 100%;
             z-index: 50;
             transition: all 0.3s ease;
+            font-family: 'Azonix', sans-serif;
         }
 
         .nav-container.scrolled {
@@ -253,7 +255,7 @@
         }
 
         .btn-primary:hover {
-            background: #4fd1c7;
+            background: var(--space-accent);
             transform: translateY(-2px);
         }
 
@@ -327,6 +329,11 @@
             font-size: 4rem;
             margin-bottom: 1.5rem;
             line-height: 1.2;
+            background: #533A7B;
+            background: linear-gradient(to top, #533A7B 26%, #FFFFFF 100%, #000000 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
@@ -359,6 +366,7 @@
         .terminal {
             background: var(--card);
             border-radius: 1rem;
+            border: 5px solid var(--space-purple);
             padding: 1.5rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
         }
