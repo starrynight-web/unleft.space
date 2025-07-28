@@ -240,7 +240,7 @@
                 }
             }
         });
-        // Close menu when a nav link is clicked (for better UX)
+        // Close hamburger menu when a nav link is clicked (for better UX)
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.addEventListener('click', () => {
