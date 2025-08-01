@@ -150,8 +150,6 @@
             // Initialize typing effect
             new TypingEffect('typing-text', 'Powering Digital Possibilities.', 100);
             
-            // Set up scroll listeners
-            window.addEventListener('scroll', handleNavScroll);
             
             // Set up intersection observer
             setupIntersectionObserver();
@@ -165,7 +163,7 @@
                 card.addEventListener('mouseleave', function() {
                     this.style.transform = 'translateY(0) scale(1)';
                 });
-            });
+            }); 
             
             // Add click effects to buttons
             document.querySelectorAll('.btn').forEach(btn => {
