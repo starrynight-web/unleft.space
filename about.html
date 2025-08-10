@@ -1,0 +1,245 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { Sparkles, Users, Target, Code, Mail } from "lucide-react";
+
+// About page for the company "unleft"
+// Tailwind CSS assumed to be available in the project
+// Exports a single default React component
+
+export default function UnleftAboutPage() {
+  return (
+    <main className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-slate-100 antialiased">
+      {/* HERO */}
+      <section className="relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <motion.div
+            initial={{ x: -40, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="space-y-6"
+          >
+            <div className="inline-flex items-center gap-3 bg-white/5 py-1.5 px-3 rounded-full shadow-sm backdrop-blur">
+              <Sparkles className="w-5 h-5 text-amber-400" />
+              <span className="text-amber-300 text-sm font-medium">Built different</span>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight">
+              unleft — software that moves you forward.
+            </h1>
+
+            <p className="text-slate-300 max-w-xl">
+              We design delightful products and dependable platforms. From elegant UI to resilient
+              backend systems — unleft crafts software with intention, speed, and compassion.
+            </p>
+
+            <div className="flex gap-3 items-center">
+              <a
+                href="#contact"
+                className="inline-flex items-center gap-3 bg-amber-400 text-slate-900 font-semibold px-5 py-3 rounded-full shadow-lg hover:scale-[1.02] transition-transform"
+              >
+                <Mail className="w-4 h-4" />
+                Get in touch
+              </a>
+
+              <a
+                href="#work"
+                className="text-sm text-slate-300 px-3 py-2 rounded-md hover:bg-white/5"
+              >
+                See our work
+              </a>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ scale: 0.96, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.6 }}
+            className="flex justify-center md:justify-end"
+          >
+            <div className="w-full max-w-md p-1 rounded-2xl bg-gradient-to-br from-slate-700/30 to-slate-700/10 shadow-2xl backdrop-blur">
+              <div className="rounded-xl overflow-hidden bg-gradient-to-tr from-slate-800 to-slate-700 p-6">
+                <div className="aspect-[16/10] bg-gradient-to-b from-amber-400/10 to-transparent rounded-lg flex items-center justify-center">
+                  {/* Placeholder art — replace with illustration or screenshot */}
+                  <div className="text-center">
+                    <div className="text-amber-300 font-bold text-2xl">unleft</div>
+                    <div className="text-slate-400 text-sm mt-2">Design-first engineering</div>
+                  </div>
+                </div>
+
+                <div className="mt-6 grid grid-cols-2 gap-3">
+                  <div className="bg-white/3 rounded-lg p-3">
+                    <div className="text-xs text-slate-300">Projects</div>
+                    <div className="text-lg font-semibold">34+</div>
+                  </div>
+                  <div className="bg-white/3 rounded-lg p-3">
+                    <div className="text-xs text-slate-300">Clients</div>
+                    <div className="text-lg font-semibold">18</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* soft decorative shapes */}
+        <svg className="pointer-events-none absolute -right-40 top-12 opacity-20" width="520" height="520" viewBox="0 0 520 520" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="260" cy="260" r="220" stroke="url(#g)" strokeWidth="1" />
+          <defs>
+            <linearGradient id="g" x1="0" x2="1">
+              <stop offset="0" stopColor="#F59E0B" stopOpacity="0.25" />
+              <stop offset="1" stopColor="#06B6D4" stopOpacity="0.25" />
+            </linearGradient>
+          </defs>
+        </svg>
+      </section>
+
+      {/* MISSION & VALUES */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10 items-start">
+          <motion.div
+            initial={{ y: 8, opacity: 0 }}
+            whileInView={{ y: 0, opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="md:col-span-1"
+          >
+            <h2 className="text-2xl font-bold">Our mission</h2>
+            <p className="mt-4 text-slate-300">To build human-first software that simplifies complexity and empowers teams and people to do their best work.</p>
+
+            <div className="mt-6 space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-md bg-amber-400/10">
+                  <Target className="w-5 h-5 text-amber-300" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium">Focused execution</div>
+                  <div className="text-xs text-slate-400">Product-led engineering and measurable outcomes.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-md bg-amber-400/10">
+                  <Users className="w-5 h-5 text-amber-300" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium">People first</div>
+                  <div className="text-xs text-slate-400">Respect, growth and psychological safety for every team member.</div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-3">
+                <div className="p-2 rounded-md bg-amber-400/10">
+                  <Code className="w-5 h-5 text-amber-300" />
+                </div>
+                <div>
+                  <div className="text-sm font-medium">Craft & reliability</div>
+                  <div className="text-xs text-slate-400">Maintainable systems and delightful UX, always.</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.15, duration: 0.6 }}
+            className="md:col-span-2">
+            <div className="bg-white/3 rounded-2xl p-6">
+              <h3 className="text-lg font-semibold">What we do</h3>
+              <p className="mt-3 text-slate-300">We partner with product teams and founders to deliver end-to-end digital products: from discovery and design to engineering and growth.</p>
+
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {[
+                  { title: "Product Design", desc: "Research-led interfaces & brand-driven visuals." },
+                  { title: "Platform Engineering", desc: "Reliable APIs, CI/CD, observability." },
+                  { title: "Growth & Ops", desc: "Data-informed growth and sustainable ops." },
+                ].map((s, i) => (
+                  <div key={i} className="p-4 rounded-lg bg-white/5">
+                    <div className="text-sm font-semibold">{s.title}</div>
+                    <div className="text-xs text-slate-400 mt-2">{s.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* TEAM */}
+      <section className="bg-gradient-to-b from-slate-900/30 to-transparent py-16">
+        <div className="max-w-6xl mx-auto px-6">
+          <h2 className="text-2xl font-bold">Meet the team</h2>
+          <p className="text-slate-400 mt-2">Small, versatile team — big results.</p>
+
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            {[
+              { name: "Aisha Rahman", role: "Head of Product", img: "/images/team-aisha.jpg" },
+              { name: "Rafi Khan", role: "Lead Engineer", img: "/images/team-rafi.jpg" },
+              { name: "Lina Gomez", role: "Design Lead", img: "/images/team-lina.jpg" },
+              { name: "Tariq Ahmed", role: "Growth", img: "/images/team-tariq.jpg" },
+            ].map((p, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ y: -6 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="rounded-2xl bg-white/3 p-4 flex flex-col items-center text-center"
+              >
+                <div className="w-24 h-24 rounded-full overflow-hidden bg-slate-700 flex items-center justify-center mb-3">
+                  {/* Replace with actual photos */}
+                  <img src={p.img} alt={p.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="font-semibold">{p.name}</div>
+                <div className="text-xs text-slate-400">{p.role}</div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TIMELINE */}
+      <section className="max-w-6xl mx-auto px-6 py-16">
+        <h2 className="text-2xl font-bold">Our story</h2>
+        <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            { year: "2019", title: "Founded", text: "Started as a two-person studio building web apps for startups." },
+            { year: "2021", title: "Scale", text: "Moved from consultancy to product partnerships and grew the team." },
+            { year: "2024", title: "Platform focus", text: "Launched our first SaaS offering and focused on long-term platform architecture." },
+          ].map((t, i) => (
+            <motion.div key={i} initial={{ y: 8, opacity: 0 }} whileInView={{ y: 0, opacity: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.12 }} className="p-6 rounded-xl bg-white/4">
+              <div className="text-amber-300 font-bold">{t.year}</div>
+              <div className="mt-2 font-semibold">{t.title}</div>
+              <div className="text-slate-400 text-sm mt-2">{t.text}</div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section id="contact" className="bg-gradient-to-r from-amber-500/5 to-emerald-400/5 py-14 border-t border-white/5">
+        <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div>
+            <h3 className="text-xl font-bold">Ready to build something together?</h3>
+            <p className="text-slate-300 mt-2">Tell us about your project and we’ll propose a focused plan.</p>
+          </div>
+          <div className="flex gap-3">
+            <a href="mailto:hello@unleft.dev" className="inline-flex items-center gap-3 bg-amber-400 text-slate-900 font-semibold px-5 py-3 rounded-full shadow-lg">Email us</a>
+            <a href="#" className="inline-flex items-center gap-2 px-4 py-3 border border-white/6 rounded-full text-sm">Open roles</a>
+          </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="max-w-6xl mx-auto px-6 py-8 text-slate-400">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-sm">© {new Date().getFullYear()} unleft — Crafted with care.</div>
+          <div className="flex items-center gap-4 text-sm">
+            <a href="#" className="hover:underline">Privacy</a>
+            <a href="#" className="hover:underline">Terms</a>
+            <a href="#" className="hover:underline">Contact</a>
+          </div>
+        </div>
+      </footer>
+    </main>
+  );
+}
