@@ -219,5 +219,6 @@ const cards = [...testimonials, ...testimonials];
     );
   }
 
-  document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
+  // Support View Transitions
+  document.addEventListener('astro:page-load', initTestimonialsCarousel);
 </script>

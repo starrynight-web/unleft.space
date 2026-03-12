@@ -1,0 +1,97 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import ContactForm from '@/components/sections/ContactForm';
+import { ContactCard } from '@/components/ui/contact-card';
+import { Badge } from '@/components/ui/badge';
+import { ArrowLeft, Package, CheckCircle } from 'lucide-react';
+---
+
+<PageLayout title="Checkout" description="Complete your onboarding and let's start building." noindex={true} nofollow={true}>
+  <section class="max-w-7xl mx-auto px-6 py-24">
+    <a href="/pricing" class="inline-flex items-center gap-2 text-text-secondary hover:text-text-primary transition-colors mb-12 group">
+      <ArrowLeft className="h-4 w-4 transition-transform group-hover:-translate-x-1" />
+      Back to Pricing
+    </a>
+
+    {/* Hero */}
+    <div class="text-center mb-16 px-4">
+      <Badge className="mb-6 bg-accent-primary/10 text-accent-glow border-none mx-auto w-fit">Start Your Project</Badge>
+      <h1 class="text-4xl md:text-6xl font-bold text-text-primary mb-8 tracking-tighter" style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}>
+        LET'S <span class="text-accent-primary">BUILD</span>
+      </h1>
+      <p class="text-xl text-text-secondary leading-relaxed max-w-2xl mx-auto">
+        You've chosen your plan. Now let us know about your project and we'll get started.
+      </p>
+    </div>
+
+    <ContactCard
+      title="Your Plan"
+      description="Tell us about your project below. We'll confirm details and get back to you within 24 hours."
+      contactInfo={[]}
+    >
+      {/* Info section content — plan summary injected by JS */}
+      <div slot="info-extra" id="plan-summary" class="mt-6 space-y-3 hidden">
+        <div class="flex items-center gap-3 p-3 rounded-xl bg-accent-primary/10 border border-accent-primary/20">
+          <Package class="h-5 w-5 text-accent-glow flex-shrink-0" />
+          <div>
+            <p id="plan-name" class="font-semibold text-text-primary text-sm"></p>
+            <p id="plan-price" class="text-accent-glow text-xs"></p>
+          </div>
+        </div>
+        <ul id="plan-features" class="space-y-2 text-xs text-text-secondary"></ul>
+      </div>
+
+      <div class="w-full">
+        <h2 class="text-2xl font-bold text-text-primary mb-8">Send a Message</h2>
+        <ContactForm client:load />
+      </div>
+    </ContactCard>
+  </section>
+</PageLayout>
+
+<script>
+  const tiers: Record<string, { name: string; price: string; features: string[] }> = {
+    starter: {
+      name: 'Starter',
+      price: '$499 / project',
+      features: ['Up to 5 pages', 'Responsive design', 'Basic SEO optimization', 'Contact form', '1 month support'],
+    },
+    growth: {
+      name: 'Growth',
+      price: '$1,499 / project',
+      features: ['Up to 15 pages', 'Custom design system', 'CMS integration', 'Performance optimization', 'Analytics setup', '3 months support'],
+    },
+    enterprise: {
+      name: 'Enterprise',
+      price: '$5,000+',
+      features: ['Unlimited pages', 'Custom backend', 'Database design', 'CI/CD pipeline', 'Security audit', '6 months support'],
+    },
+  };
+
+  function initCheckout() {
+    const params = new URLSearchParams(window.location.search);
+    const planKey = params.get('plan')?.toLowerCase() ?? '';
+    const plan = tiers[planKey];
+    if (!plan) return;
+
+    const summary = document.getElementById('plan-summary');
+    const planName = document.getElementById('plan-name');
+    const planPrice = document.getElementById('plan-price');
+    const planFeatures = document.getElementById('plan-features');
+
+    if (summary && planName && planPrice && planFeatures) {
+      planName.textContent = plan.name;
+      planPrice.textContent = plan.price;
+      planFeatures.innerHTML = plan.features.map(f => `
+        <li class="flex items-center gap-2">
+          <svg class="h-3 w-3 text-emerald-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          ${f}
+        </li>
+      `).join('');
+      summary.classList.remove('hidden');
+    }
+  }
+
+  initCheckout();
+  document.addEventListener('astro:page-load', initCheckout);
+</script>

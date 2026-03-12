@@ -5,21 +5,27 @@ import CookieBanner from '@/components/layout/CookieBanner';
 import { EtheralShadow } from '@/components/ui/EtheralShadow';
 import { SplashScreen } from '@/components/ui/SplashScreen';
 
+import { SEO } from 'astro-seo';
+
 interface Props {
   title: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
 const {
   title,
   description = 'Engineering the Future. Beyond Software.',
   image = '/og-image.png',
+  noindex = false,
+  nofollow = false,
 } = Astro.props;
 
-const siteBase = Astro.site ?? new URL('https://Unleft');
-const canonicalURL = new URL(Astro.url.pathname, siteBase);
-const ogImageURL = new URL(image, siteBase);
+const siteBase = Astro.site ?? new URL('https://unleft.space');
+const canonicalURL = new URL(Astro.url.pathname, siteBase).toString();
+const ogImageURL = new URL(image, siteBase).toString();
 const fullTitle = `${title} | Unleft`;
 ---
 
@@ -36,29 +42,40 @@ const fullTitle = `${title} | Unleft`;
     <meta name="apple-mobile-web-app-title" content="Unleft" />
     <meta name="theme-color" content="#7C3AED" />
 
-    <!-- Primary Meta Tags -->
-    <title>{fullTitle}</title>
-    <meta name="title" content={fullTitle} />
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL} />
-    <meta name="theme-color" content="#7C3AED" />
-    <meta name="robots" content="index, follow" />
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={ogImageURL} />
-    <meta property="og:site_name" content="Unleft" />
-    <meta property="og:locale" content="en_US" />
-
-    <!-- Twitter Card -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
-    <meta property="twitter:title" content={fullTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={ogImageURL} />
+    <SEO
+      title={fullTitle}
+      description={description}
+      canonical={canonicalURL}
+      noindex={noindex}
+      nofollow={nofollow}
+      openGraph={{
+        basic: {
+          title: fullTitle,
+          type: "website",
+          image: ogImageURL,
+          url: canonicalURL,
+        },
+        optional: {
+          siteName: "Unleft",
+          locale: "en_US",
+          description: description,
+        }
+      }}
+      twitter={{
+        card: "summary_large_image",
+        site: "@UnleftStudio",
+        creator: "@UnleftStudio",
+        title: fullTitle,
+        description: description,
+        image: ogImageURL,
+      }}
+      extend={{
+        meta: [
+          { name: "theme-color", content: "#7C3AED" },
+          { name: "viewport", content: "width=device-width, initial-scale=1" },
+        ],
+      }}
+    />
 
     <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

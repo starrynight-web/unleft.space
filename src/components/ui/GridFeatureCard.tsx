@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn, uniqueifySvgIds } from '@/lib/utils';
 import React from 'react';
 
 type FeatureType = {
@@ -13,6 +13,11 @@ type FeatureCardProps = React.ComponentProps<'div'> & {
 
 export function GridFeatureCard({ feature, className, ...props }: FeatureCardProps) {
 	const p = React.useMemo(() => genRandomPattern(), []);
+
+    const processedIcon = React.useMemo(() => {
+        if (typeof feature.icon !== 'string') return feature.icon;
+        return uniqueifySvgIds(feature.icon, feature.title);
+    }, [feature.icon, feature.title]);
 
 	return (
 		<div className={cn('relative overflow-hidden p-6 border border-white/5 bg-white/[0.02] flex flex-col items-center text-center group transition-all duration-300 hover:bg-white/[0.04]', className)} {...props}>
@@ -29,11 +34,12 @@ export function GridFeatureCard({ feature, className, ...props }: FeatureCardPro
 				</div>
 			</div>
 			<div className="relative z-10 mb-6">
-                {typeof feature.icon === 'string' ? (
-                    <div className="text-foreground/75 size-8 tech-icon-svg" dangerouslySetInnerHTML={{ __html: feature.icon }} />
-                ) : (
-                    <feature.icon className="text-foreground/75 size-8" strokeWidth={1} aria-hidden />
-                )}
+                {typeof processedIcon === 'string' ? (
+                    <div className="text-foreground/75 size-8 tech-icon-svg" dangerouslySetInnerHTML={{ __html: processedIcon }} />
+                ) : (() => {
+                    const IconComponent = processedIcon;
+                    return <IconComponent className="text-foreground/75 size-8" strokeWidth={1} aria-hidden />;
+                })()}
             </div>
 			<h3 className="relative z-10 text-sm md:text-base font-medium text-text-primary group-hover:text-accent-glow transition-colors">{feature.title}</h3>
 			{feature.description && (
@@ -44,7 +50,6 @@ export function GridFeatureCard({ feature, className, ...props }: FeatureCardPro
                 .tech-icon-svg svg {
                     width: 100%;
                     height: 100%;
-                    fill: currentColor;
                 }
             `}} />
 		</div>

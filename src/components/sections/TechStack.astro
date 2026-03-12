@@ -18,31 +18,32 @@ import { svg as vercelSvg, title as vercelTitle } from 'thesvg/vercel';
 import { svg as netlifySvg, title as netlifyTitle } from 'thesvg/netlify';
 import { svg as renderSvg, title as renderTitle } from 'thesvg/render';
 import { svg as tensorflowSvg, title as tensorflowTitle } from 'thesvg/tensorflow';
+import { uniqueifySvgIds } from '@/lib/utils';
 
 const rowOne = [
-  { svg: reactSvg, title: reactTitle },
-  { svg: nextSvg, title: nextTitle },
-  { svg: astroSvg, title: astroTitle },
-  { svg: tailwindSvg, title: tailwindTitle },
-  { svg: framerSvg, title: framerTitle },
-  { svg: nodeSvg, title: nodeTitle },
-  { svg: pythonSvg, title: pythonTitle },
-  { svg: djangoSvg, title: djangoTitle },
-  { svg: mongoSvg, title: mongoTitle },
-  { svg: supabaseSvg, title: supabaseTitle },
+  { svg: uniqueifySvgIds(reactSvg, reactTitle), title: reactTitle },
+  { svg: uniqueifySvgIds(nextSvg, nextTitle), title: nextTitle },
+  { svg: uniqueifySvgIds(astroSvg, astroTitle), title: astroTitle },
+  { svg: uniqueifySvgIds(tailwindSvg, tailwindTitle), title: tailwindTitle },
+  { svg: uniqueifySvgIds(framerSvg, framerTitle), title: framerTitle },
+  { svg: uniqueifySvgIds(nodeSvg, nodeTitle), title: nodeTitle },
+  { svg: uniqueifySvgIds(pythonSvg, pythonTitle), title: pythonTitle },
+  { svg: uniqueifySvgIds(djangoSvg, djangoTitle), title: djangoTitle },
+  { svg: uniqueifySvgIds(mongoSvg, mongoTitle), title: mongoTitle },
+  { svg: uniqueifySvgIds(supabaseSvg, supabaseTitle), title: supabaseTitle },
 ];
 
 const rowTwo = [
-  { svg: unitySvg, title: unityTitle },
-  { svg: csharpSvg, title: csharpTitle },
-  { svg: threeSvg, title: threeTitle },
-  { svg: webglSvg, title: webglTitle },
-  { svg: dockerSvg, title: dockerTitle },
-  { svg: vercelSvg, title: vercelTitle },
-  { svg: netlifySvg, title: netlifyTitle },
-  { svg: renderSvg, title: renderTitle },
-  { svg: tensorflowSvg, title: tensorflowTitle },
-  { svg: reactSvg, title: reactTitle },
+  { svg: uniqueifySvgIds(unitySvg, unityTitle), title: unityTitle },
+  { svg: uniqueifySvgIds(csharpSvg, csharpTitle), title: csharpTitle },
+  { svg: uniqueifySvgIds(threeSvg, threeTitle), title: threeTitle },
+  { svg: uniqueifySvgIds(webglSvg, webglTitle), title: webglTitle },
+  { svg: uniqueifySvgIds(dockerSvg, dockerTitle), title: dockerTitle },
+  { svg: uniqueifySvgIds(vercelSvg, vercelTitle), title: vercelTitle },
+  { svg: uniqueifySvgIds(netlifySvg, netlifyTitle), title: netlifyTitle },
+  { svg: uniqueifySvgIds(renderSvg, renderTitle), title: renderTitle },
+  { svg: uniqueifySvgIds(tensorflowSvg, tensorflowTitle), title: tensorflowTitle },
+  { svg: uniqueifySvgIds(reactSvg, 'react-2'), title: reactTitle },
 ];
 ---
 
@@ -58,10 +59,10 @@ const rowTwo = [
   <!-- Row 1: scrolls left -->
   <div class="embla-tech" id="embla-row1">
     <div class="embla-tech__container" id="embla-row1-container">
-      {[...rowOne, ...rowOne].map((icon) => (
+      {[...rowOne, ...rowOne].map((icon, idx) => (
         <div class="embla-tech__slide">
           <div class="tech-icon-pill">
-            <span class="tech-icon-svg" set:html={icon.svg} />
+            <span class="tech-icon-svg" set:html={uniqueifySvgIds(icon.svg, `${icon.title}-${idx}`)} />
             <span class="tech-icon-label">{icon.title}</span>
           </div>
         </div>
@@ -72,10 +73,10 @@ const rowTwo = [
   <!-- Row 2: scrolls right -->
   <div class="embla-tech mt-4" id="embla-row2">
     <div class="embla-tech__container" id="embla-row2-container">
-      {[...rowTwo, ...rowTwo].map((icon) => (
+      {[...rowTwo, ...rowTwo].map((icon, idx) => (
         <div class="embla-tech__slide">
           <div class="tech-icon-pill">
-            <span class="tech-icon-svg" set:html={icon.svg} />
+            <span class="tech-icon-svg" set:html={uniqueifySvgIds(icon.svg, `${icon.title}-row2-${idx}`)} />
             <span class="tech-icon-label">{icon.title}</span>
           </div>
         </div>
@@ -155,8 +156,6 @@ const rowTwo = [
   .tech-icon-svg :global(svg) {
     width: 22px;
     height: 22px;
-    fill: currentColor;
-    color: #9CA3AF;
   }
 
   .tech-icon-label {
@@ -198,5 +197,6 @@ const rowTwo = [
     }
   }
 
-  document.addEventListener('DOMContentLoaded', initTechCarousels);
+  // Support View Transitions
+  document.addEventListener('astro:page-load', initTechCarousels);
 </script>

@@ -2,17 +2,30 @@
 import PageLayout from '@/layouts/PageLayout.astro';
 import ContactForm from '@/components/sections/ContactForm';
 import { ContactCard } from '@/components/ui/contact-card';
+import { Badge } from '@/components/ui/badge';
 import { Mail, MapPin, Github, Linkedin } from 'lucide-react';
 ---
 
-<PageLayout title="Contact" description="Get in touch with Unleft. Let's build something extraordinary.">
+<PageLayout title="Contact" description="Contact Unleft — a software development studio based in Dhaka, Bangladesh. Reach out to start your web, game, AI, or mobile project.">
   <section class="max-w-7xl mx-auto px-6 py-24">
+    <div class="text-center mb-16 px-4">
+      <Badge className="mb-6 bg-accent-primary/10 text-accent-glow border-none mx-auto w-fit">Get In Touch</Badge>
+      <h1 class="text-4xl md:text-6xl font-bold text-text-primary mb-8 tracking-tighter" style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}>
+        LET'S <span class="text-accent-primary">BUILD</span>
+      </h1>
+      <p class="text-xl text-text-secondary leading-relaxed max-w-2xl mx-auto">
+        Ready to turn your vision into high-performance digital reality? Drop us a message or find us on social.
+      </p>
+    </div>
+
     <ContactCard 
-      title="LET'S BUILD"
-      description="Ready to turn your vision into high-performance digital reality? Drop us a message or find us on social."
+      title="Contact Info"
+      description="Find us on social media or reach out via email."
       contactInfo={[
-        { icon: Mail, label: 'Email', value: 'hello@Unleft.space' },
-        { icon: MapPin, label: 'Location', value: 'Dhaka, Bangladesh' }
+        { icon: Mail, label: 'Email', value: 'hello@Unleft.space', href: 'mailto:hello@Unleft.space' },
+        { icon: MapPin, label: 'Location', value: 'Dhaka, Bangladesh' },
+        { icon: Github, label: 'GitHub', value: 'github.com/Unleft', href: 'https://github.com/Unleft' },
+        { icon: Linkedin, label: 'LinkedIn', value: 'linkedin.com/company/Unleft', href: 'https://linkedin.com/company/Unleft' }
       ]}
     >
       <div class="w-full">
@@ -20,15 +33,5 @@ import { Mail, MapPin, Github, Linkedin } from 'lucide-react';
         <ContactForm client:load />
       </div>
     </ContactCard>
-
-    <!-- Social Links (Optional, if they don't fit in ContactCard yet) -->
-    <div class="flex gap-4 pt-12 justify-start">
-        <a href="https://github.com/Unleft" target="_blank" rel="noopener noreferrer" class="h-12 w-12 rounded-xl border border-[#2D2D44] flex items-center justify-center hover:bg-[#1A1A2E] hover:border-accent-glow/30 transition-all group">
-            <Github className="h-6 w-6 text-text-secondary group-hover:text-accent-glow transition-colors" />
-        </a>
-        <a href="https://linkedin.com/company/Unleft" target="_blank" rel="noopener noreferrer" class="h-12 w-12 rounded-xl border border-[#2D2D44] flex items-center justify-center hover:bg-[#1A1A2E] hover:border-accent-glow/30 transition-all group">
-            <Linkedin className="h-6 w-6 text-text-secondary group-hover:text-accent-glow transition-colors" />
-        </a>
-    </div>
   </section>
 </PageLayout>

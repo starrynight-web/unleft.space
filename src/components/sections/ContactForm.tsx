@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
+// Full schema including optional custom-quote fields
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters").max(100),
   email: z.string().email("Please enter a valid email"),
   company: z.string().optional(),
-  serviceInterest: z.string().min(1, "Please select a service"),
+  serviceInterest: z.string().optional(),
   budgetRange: z.string().optional(),
   message: z
     .string()
@@ -37,10 +38,26 @@ const budgets = [
   "Not sure",
 ];
 
-export default function ContactForm() {
+interface ContactFormProps {
+  /** When true, shows service interest and budget range fields */
+  showCustomFields?: boolean;
+}
+
+export default function ContactForm({ showCustomFields: showCustomFieldsProp }: ContactFormProps) {
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
+
+  // Also detect ?mode=custom from URL
+  const [showCustomFields, setShowCustomFields] = useState(showCustomFieldsProp ?? false);
+
+  useEffect(() => {
+    if (showCustomFieldsProp !== undefined) return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get("mode") === "custom") {
+      setShowCustomFields(true);
+    }
+  }, [showCustomFieldsProp]);
 
   const {
     register,
@@ -52,7 +69,7 @@ export default function ContactForm() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
-    if (data.honeypot) return; // Spam trap
+    if (data.honeypot) return;
     setStatus("submitting");
     try {
       const res = await fetch("/api/contact", {
@@ -140,33 +157,29 @@ export default function ContactForm() {
         />
       </div>
 
-      <div className="grid sm:grid-cols-2 gap-6">
-        <div>
-          <label htmlFor="serviceInterest" className={labelClasses}>Service Interest *</label>
-          <select {...register("serviceInterest")} id="serviceInterest" className={inputClasses}>
-            <option value="">Select a service...</option>
-            {services.map((s) => (
-              <option key={s} value={s}>
-                {s}
-              </option>
-            ))}
-          </select>
-          {errors.serviceInterest && (
-            <p className={errorClasses}>{errors.serviceInterest.message}</p>
-          )}
+      {/* Conditional custom-quote fields */}
+      {showCustomFields && (
+        <div className="grid sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
+          <div>
+            <label htmlFor="serviceInterest" className={labelClasses}>Service Interest</label>
+            <select {...register("serviceInterest")} id="serviceInterest" className={inputClasses}>
+              <option value="">Select a service...</option>
+              {services.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="budgetRange" className={labelClasses}>Budget Range</label>
+            <select {...register("budgetRange")} id="budgetRange" className={inputClasses}>
+              <option value="">Select budget (optional)</option>
+              {budgets.map((b) => (
+                <option key={b} value={b}>{b}</option>
+              ))}
+            </select>
+          </div>
         </div>
-        <div>
-          <label htmlFor="budgetRange" className={labelClasses}>Budget Range</label>
-          <select {...register("budgetRange")} id="budgetRange" className={inputClasses}>
-            <option value="">Select budget (optional)</option>
-            {budgets.map((b) => (
-              <option key={b} value={b}>
-                {b}
-              </option>
-            ))}
-          </select>
-        </div>
-      </div>
+      )}
 
       <div>
         <label htmlFor="message" className={labelClasses}>Message *</label>
@@ -203,7 +216,6 @@ export default function ContactForm() {
         )}
       </Button>
 
-      {/* Boosted contrast: text-[#9CA3AF] meets 4.5:1 on dark bg; link has underline + brighter color */}
       <p className="text-xs text-center text-[#9CA3AF]">
         We reply within 24 hours. Your data is protected per our{" "}
         <a href="/legal/privacy" className="text-[#D8A8FF] underline hover:text-white transition-colors">

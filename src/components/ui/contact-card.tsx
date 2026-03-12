@@ -9,6 +9,7 @@ export type ContactInfoItem = {
 	icon: LucideIcon;
 	label: string;
 	value: string;
+	href?: string;
 };
 
 type ContactInfoProps = React.ComponentProps<'div'> & ContactInfoItem;
@@ -33,7 +34,7 @@ export function ContactCard({
 	return (
 		<div
 			className={cn(
-				'bg-[#0A0A0F]/40 border border-[#2D2D44] relative grid h-full w-full shadow-2xl md:grid-cols-2 lg:grid-cols-3 rounded-3xl backdrop-blur-sm overflow-visible',
+				'bg-[#0A0A0F]/40 border border-[#2D2D44] relative grid h-full w-full shadow-2xl lg:grid-cols-12 rounded-3xl backdrop-blur-sm overflow-visible',
 				className,
 			)}
 			{...props}
@@ -43,7 +44,7 @@ export function ContactCard({
 			<Plus className="absolute -bottom-3 -left-3 h-6 w-6 text-accent-glow" />
 			<Plus className="absolute -right-3 -bottom-3 h-6 w-6 text-accent-glow" />
 			
-            <div className="flex flex-col justify-between lg:col-span-2">
+            <div className="flex flex-col justify-between lg:col-span-3">
 				<div className="relative h-full space-y-6 px-6 py-10 md:p-12 text-left">
 					<h2 className="text-3xl font-bold md:text-4xl lg:text-5xl text-text-primary tracking-tighter" style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}>
 						{title}
@@ -51,7 +52,7 @@ export function ContactCard({
 					<p className="text-text-secondary max-w-xl text-sm md:text-base lg:text-lg leading-relaxed">
 						{description}
 					</p>
-					<div className="grid gap-6 md:grid-cols-2 mt-8">
+					<div className="grid gap-6 mt-8">
 						{contactInfo?.map((info, index) => (
 							<ContactInfo key={index} {...info} />
 						))}
@@ -60,7 +61,7 @@ export function ContactCard({
 			</div>
 			<div
 				className={cn(
-					'bg-[#1A1A2E]/20 flex h-full w-full items-center border-t border-[#2D2D44] p-6 md:col-span-1 md:border-t-0 md:border-l',
+					'bg-[#1A1A2E]/20 flex h-full w-full items-center border-t border-[#2D2D44] p-6 lg:col-span-9 md:border-t-0 md:border-l',
 					formSectionClassName,
 				)}
 			>
@@ -74,10 +75,11 @@ function ContactInfo({
 	icon: Icon,
 	label,
 	value,
+	href,
 	className,
 	...props
 }: ContactInfoProps) {
-	return (
+	const content = (
 		<div className={cn('flex items-center gap-4 py-2 group', className)} {...props}>
 			<div className="bg-accent-primary/10 rounded-xl p-3 border border-accent-primary/20 group-hover:bg-accent-primary/20 transition-colors">
 				<Icon className="h-5 w-5 text-accent-glow" />
@@ -88,4 +90,14 @@ function ContactInfo({
 			</div>
 		</div>
 	);
+
+	if (href) {
+		return (
+			<a href={href} target="_blank" rel="noopener noreferrer" className="block w-full">
+				{content}
+			</a>
+		);
+	}
+
+	return content;
 }

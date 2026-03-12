@@ -7,12 +7,14 @@ interface Props {
   title: string;
   description?: string;
   image?: string;
+  noindex?: boolean;
+  nofollow?: boolean;
 }
 
-const { title, description, image } = Astro.props;
+const { title, description, image, noindex, nofollow } = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} image={image} noindex={noindex} nofollow={nofollow}>
   <Header client:load transition:persist="site-header" />
   <main class="pt-20 min-h-screen">
     <slot />

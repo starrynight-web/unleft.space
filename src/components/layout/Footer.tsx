@@ -4,7 +4,6 @@ import type { ComponentProps, ReactNode } from "react";
 import { motion, useReducedMotion, AnimatePresence } from "framer-motion";
 import { Github, Linkedin, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { FlickeringGrid } from "@/components/ui/FlickeringGrid";
 
 interface FooterLink {
   title: string;
@@ -21,19 +20,12 @@ const footerLinks: FooterSection[] = [
   {
     label: "Company",
     links: [
-      { title: "About", href: "/about" },
       { title: "Services", href: "/services" },
       { title: "Projects", href: "/projects" },
-      { title: "Team", href: "/team" },
-    ],
-  },
-  {
-    label: "Services",
-    links: [
-      { title: "Web Development", href: "/services" },
-      { title: "Game Development", href: "/services" },
-      { title: "Custom Software", href: "/services" },
-      { title: "AI Systems", href: "/services" },
+      { title: "Tech", href: "/tech" },
+      { title: "About", href: "/about" },
+      { title: "Pricing", href: "/pricing" },
+      { title: "Contact", href: "/contact" },
     ],
   },
   {
@@ -60,22 +52,13 @@ const footerLinks: FooterSection[] = [
 
 export default function Footer() {
   const year = new Date().getFullYear();
-  const [showTagline, setShowTagline] = React.useState(false);
-
-  React.useEffect(() => {
-    const interval = setInterval(() => {
-      setShowTagline((prev) => !prev);
-    }, 6000); // 6 seconds interval
-    return () => clearInterval(interval);
-  }, []);
-
   return (
     <footer className="relative w-full border-t border-border/40 overflow-hidden pb-0">
       {/* Top glow line */}
       <div className="bg-primary/20 absolute top-0 right-1/2 left-1/2 h-px w-1/3 -translate-x-1/2 -translate-y-1/2 rounded-full blur-md" />
 
       {/* Footer content */}
-      <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 lg:py-16 grid w-full gap-8 xl:grid-cols-3 xl:gap-8">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-12 lg:py-16 grid w-full gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-4">
         <AnimatedContainer className="space-y-6">
           <a
             href="/"
@@ -83,13 +66,13 @@ export default function Footer() {
             aria-label="Unleft — home"
           >
             <div className="flex items-center gap-3">
-              <img 
-                src="/logos/unleft_logo.png" 
-                alt="" 
+              <img
+                src="/logos/unleft_logo.png"
+                alt=""
                 aria-hidden="true"
                 width={24}
                 height={24}
-                className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert" 
+                className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert"
               />
               <span
                 style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
@@ -113,69 +96,39 @@ export default function Footer() {
           </p>
         </AnimatedContainer>
 
-        <div className="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2 xl:mt-0">
-          {footerLinks.map((section, index) => (
-            <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
-              <div className="mb-10 md:mb-0">
-                <h3 className="text-sm tracking-wider uppercase font-semibold text-foreground/90">
-                  {section.label}
-                </h3>
-                <ul className="text-muted-foreground mt-4 space-y-2 text-sm">
-                  {section.links.map((link) => (
-                    <li key={link.title}>
-                      <a
-                        href={link.href}
-                        aria-label={link.title}
-                        target={
-                          link.href.startsWith("http") ? "_blank" : undefined
-                        }
-                        rel={
-                          link.href.startsWith("http")
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
-                        className="hover:text-primary inline-flex items-center transition-all duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-xs"
-                      >
-                        {link.icon && <link.icon className="me-2 size-4" />}
-                        {link.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </AnimatedContainer>
-          ))}
-        </div>
+        {footerLinks.map((section, index) => (
+          <AnimatedContainer key={section.label} delay={0.1 + index * 0.1}>
+            <div className="mb-0">
+              <h3 className="text-sm tracking-wider uppercase font-semibold text-foreground/90">
+                {section.label}
+              </h3>
+              <ul className="text-muted-foreground mt-4 space-y-2 text-sm">
+                {section.links.map((link) => (
+                  <li key={link.title}>
+                    <a
+                      href={link.href}
+                      aria-label={link.title}
+                      target={
+                        link.href.startsWith("http") ? "_blank" : undefined
+                      }
+                      rel={
+                        link.href.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="hover:text-primary inline-flex items-center transition-all duration-300 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring rounded-xs"
+                    >
+                      {link.icon && <link.icon className="me-2 size-4" />}
+                      {link.title}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </AnimatedContainer>
+        ))}
       </div>
 
-      {/* Flickering Grid Bottom */}
-      <div className="w-full h-48 md:h-64 relative z-0">
-        <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background z-10 from-40%" />
-        <div className="absolute inset-0 mx-6">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={showTagline ? "tagline" : "logo"}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1, ease: "easeInOut" }}
-              className="h-full w-full"
-            >
-              <FlickeringGrid
-                text={showTagline ? "Engineering the Future,\nBeyond Software." : "UNLEFT.LLC"}
-                fontFamily={'"JetBrains Mono", monospace'}
-                fontSize={80}
-                className="h-full w-full"
-                squareSize={2}
-                gridGap={3}
-                color="#6B7280"
-                maxOpacity={0.3}
-                flickerChance={0.1}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
     </footer>
   );
 }

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Disallow checkout (internal/private)
+Disallow: /checkout
+
+# Sitemap location
+Sitemap: https://unleft.space/sitemap-index.xml
