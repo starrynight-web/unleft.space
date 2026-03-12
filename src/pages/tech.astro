@@ -1,0 +1,87 @@
+---
+import PageLayout from '@/layouts/PageLayout.astro';
+import { GridFeatureCard } from '@/components/ui/GridFeatureCard';
+import { Badge } from '@/components/ui/badge';
+import { svg as reactSvg } from 'thesvg/react';
+import { svg as nextSvg } from 'thesvg/nextdotjs';
+import { svg as astroSvg } from 'thesvg/astro';
+import { svg as tailwindSvg } from 'thesvg/tailwind-css';
+import { svg as framerSvg } from 'thesvg/framer';
+import { svg as nodeSvg } from 'thesvg/nodedotjs';
+import { svg as pythonSvg } from 'thesvg/python';
+import { svg as djangoSvg } from 'thesvg/django';
+import { svg as mongoSvg } from 'thesvg/mongodb';
+import { svg as supabaseSvg } from 'thesvg/supabase';
+import { svg as unitySvg } from 'thesvg/unity';
+import { svg as csharpSvg } from 'thesvg/csharp';
+import { svg as threeSvg } from 'thesvg/threedotjs';
+import { svg as webglSvg } from 'thesvg/webgl';
+import { svg as dockerSvg } from 'thesvg/docker';
+import { svg as vercelSvg } from 'thesvg/vercel';
+import { svg as tensorflowSvg } from 'thesvg/tensorflow';
+const categories = [
+  {
+    name: 'Frontend',
+    stack: [
+      { title: 'React', icon: reactSvg },
+      { title: 'Next.js', icon: nextSvg },
+      { title: 'Astro', icon: astroSvg },
+      { title: 'Tailwind CSS', icon: tailwindSvg },
+      { title: 'Framer Motion', icon: framerSvg },
+    ]
+  },
+  {
+    name: 'Backend',
+    stack: [
+      { title: 'Node.js', icon: nodeSvg },
+      { title: 'Python', icon: pythonSvg },
+      { title: 'Django', icon: djangoSvg },
+      { title: 'MongoDB', icon: mongoSvg },
+      { title: 'Supabase', icon: supabaseSvg },
+    ]
+  },
+  {
+    name: 'Game & 3D',
+    stack: [
+      { title: 'Unity', icon: unitySvg },
+      { title: 'C#', icon: csharpSvg },
+      { title: 'Three.js', icon: threeSvg },
+      { title: 'WebGL', icon: webglSvg },
+    ]
+  },
+  {
+    name: 'DevOps & AI',
+    stack: [
+      { title: 'Docker', icon: dockerSvg },
+      { title: 'Vercel', icon: vercelSvg },
+      { title: 'TensorFlow', icon: tensorflowSvg },
+    ]
+  },
+];
+---
+<PageLayout title="Tech Stack" description="The technologies powering Unleft's digital solutions.">
+  <section class="w-full px-4 md:px-12 py-24 text-center">
+    <Badge className="mb-6 bg-accent-primary/10 text-accent-glow border-none mx-auto w-fit">Tech Stack</Badge>
+    <h1 class="text-4xl md:text-6xl font-bold text-text-primary mb-8 tracking-tight">
+      The <span class="text-accent-primary">Engine</span> Behind It.
+    </h1>
+    <p class="text-xl text-text-secondary leading-relaxed mb-24 max-w-2xl mx-auto">
+      We use a battle-tested, high-performance stack. Static-first architecture with interactive islands for maximum speed.
+    </p>
+    <div class="space-y-24 w-full">
+      {categories.map((cat) => (
+        <div class="space-y-8">
+          <div class="flex items-center gap-4">
+            <h2 class="text-sm font-mono uppercase tracking-[0.2em] text-accent-glow">{cat.name}</h2>
+            <div class="h-px bg-white/10 flex-grow"></div>
+          </div>
+          <div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-px bg-white/5 border border-white/5 rounded-2xl overflow-hidden">
+            {cat.stack.map((tech) => (
+              <GridFeatureCard client:load feature={tech} className="border-none bg-transparent h-full" />
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+</PageLayout>
