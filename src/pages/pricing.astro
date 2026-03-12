@@ -61,7 +61,7 @@ const tiers = [
             <ul class="space-y-3 mb-8 flex-1">
               {tier.features.map((feature) => (
                 <li class="flex items-center gap-3 text-sm text-text-secondary">
-                  <Check class="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                  <Check className="h-4 w-4 text-emerald-400 flex-shrink-0" />
                   {feature}
                 </li>
               ))}
@@ -76,7 +76,7 @@ const tiers = [
               variant={tier.highlighted ? 'default' : 'outline'}
             >
               {tier.cta}
-              <ArrowRight class="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
@@ -86,7 +86,7 @@ const tiers = [
     <div class="mt-16 text-center">
       <p class="text-text-secondary mb-4">Need a custom quote for game development or AI systems?</p>
       <a href="/contact" class="text-accent-glow hover:underline font-medium inline-flex items-center gap-2">
-        Request a Custom Quote <ArrowRight class="h-4 w-4" />
+        Request a Custom Quote <ArrowRight className="h-4 w-4" />
       </a>
     </div>
   </section>

@@ -47,7 +47,6 @@
   --font-body: "Inter", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
   --font-bruno: "Bruno Ace SC", sans-serif;
-  --font-barcode: "Libre Barcode 39 Extended Text", system-ui;
 
   --animate-glow: glow 2s ease-in-out infinite alternate;
   --animate-fade-in: fadeIn 0.5s ease-in-out;

@@ -93,7 +93,8 @@ export function SplashScreen() {
     scene.add(mesh);
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Cap pixel ratio to keep the shader running at 60fps on Retina / 4K screens
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
 
     container.appendChild(renderer.domElement);
 
@@ -176,7 +177,9 @@ export function SplashScreen() {
           >
             <img 
               src="/logos/unleft_logo.png" 
-              alt="" 
+              alt="Unleft logo" 
+              width={96}
+              height={96}
               className="h-20 md:h-24 w-auto brightness-110 contrast-125 saturate-0 invert" 
             />
             <h1 

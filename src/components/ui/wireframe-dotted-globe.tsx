@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import { motion } from "framer-motion"
+import { useEffect, useRef } from "react"
 import * as d3 from "d3"
 
 interface RotatingEarthProps {
@@ -11,15 +10,16 @@ interface RotatingEarthProps {
   globeScale?: number
 }
 
-export default function RotatingEarth({ 
-  width = 800, 
-  height = 800, 
+/** Yield control back to the browser for one frame */
+const yieldToMain = () => new Promise<void>((r) => setTimeout(r, 0))
+
+export default function RotatingEarth({
+  width = 800,
+  height = 800,
   className = "",
-  globeScale = 1.0
+  globeScale = 1.0,
 }: RotatingEarthProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!canvasRef.current) return
@@ -28,22 +28,18 @@ export default function RotatingEarth({
     const context = canvas.getContext("2d")
     if (!context) return
 
-    // Set up responsive dimensions
-    // Set up dimensions
     const containerWidth = width
     const containerHeight = height
-    // Radius is based on the smallest dimension, multiplied by a scaling factor
-    // Default 2.5 was quite small, let's use globeScale to control it
     const radius = (Math.min(containerWidth, containerHeight) / 2) * globeScale
 
-    const dpr = window.devicePixelRatio || 1
+    // Cap pixel ratio to avoid over-rendering on hi-DPI screens
+    const dpr = Math.min(window.devicePixelRatio || 1, 2)
     canvas.width = containerWidth * dpr
     canvas.height = containerHeight * dpr
     canvas.style.width = `${containerWidth}px`
     canvas.style.height = `${containerHeight}px`
     context.scale(dpr, dpr)
 
-    // Create projection and path generator for Canvas
     const projection = d3
       .geoOrthographic()
       .scale(radius)
@@ -52,218 +48,156 @@ export default function RotatingEarth({
 
     const path = d3.geoPath().projection(projection).context(context)
 
+    // ─── Helpers ────────────────────────────────────────────────────────────────
+
     const pointInPolygon = (point: [number, number], polygon: number[][]): boolean => {
       const [x, y] = point
       let inside = false
-
       for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
         const [xi, yi] = polygon[i]
         const [xj, yj] = polygon[j]
-
         if (yi > y !== yj > y && x < ((xj - xi) * (y - yi)) / (yj - yi) + xi) {
           inside = !inside
         }
       }
-
       return inside
     }
 
     const pointInFeature = (point: [number, number], feature: any): boolean => {
-      const geometry = feature.geometry
-
+      const { geometry } = feature
       if (geometry.type === "Polygon") {
-        const coordinates = geometry.coordinates
-        // Check if point is in outer ring
-        if (!pointInPolygon(point, coordinates[0])) {
-          return false
-        }
-        // Check if point is in any hole (inner rings)
-        for (let i = 1; i < coordinates.length; i++) {
-          if (pointInPolygon(point, coordinates[i])) {
-            return false // Point is in a hole
-          }
-        }
-        return true
-      } else if (geometry.type === "MultiPolygon") {
-        // Check each polygon in the MultiPolygon
-        for (const polygon of geometry.coordinates) {
-          // Check if point is in outer ring
-          if (pointInPolygon(point, polygon[0])) {
-            // Check if point is in any hole
-            let inHole = false
-            for (let i = 1; i < polygon.length; i++) {
-              if (pointInPolygon(point, polygon[i])) {
-                inHole = true
-                break
-              }
-            }
-            if (!inHole) {
-              return true
-            }
-          }
-        }
-        return false
+        const [outer, ...holes] = geometry.coordinates
+        if (!pointInPolygon(point, outer)) return false
+        return !holes.some((hole: number[][]) => pointInPolygon(point, hole))
       }
-
+      if (geometry.type === "MultiPolygon") {
+        return geometry.coordinates.some((poly: number[][][]) => {
+          const [outer, ...holes] = poly
+          if (!pointInPolygon(point, outer)) return false
+          return !holes.some((hole: number[][]) => pointInPolygon(point, hole))
+        })
+      }
       return false
     }
 
-    const generateDotsInPolygon = (feature: any, dotSpacing = 16) => {
-      const dots: [number, number][] = []
-      const bounds = d3.geoBounds(feature)
-      const [[minLng, minLat], [maxLng, maxLat]] = bounds
-
-      const stepSize = dotSpacing * 0.08
-      let pointsGenerated = 0
-
-      for (let lng = minLng; lng <= maxLng; lng += stepSize) {
-        for (let lat = minLat; lat <= maxLat; lat += stepSize) {
-          const point: [number, number] = [lng, lat]
-          if (pointInFeature(point, feature)) {
-            dots.push(point)
-            pointsGenerated++
-          }
-        }
-      }
-
-      console.log(
-        `[v0] Generated ${pointsGenerated} points for land feature:`,
-        feature.properties?.featurecla || "Land",
-      )
-      return dots
-    }
+    // ─── Render ─────────────────────────────────────────────────────────────────
 
     interface DotData {
       lng: number
       lat: number
-      visible: boolean
     }
 
     const allDots: DotData[] = []
-    let landFeatures: any
+    let landFeatures: any = null
 
     const render = () => {
-      // Clear canvas
       context.clearRect(0, 0, containerWidth, containerHeight)
-
       const currentScale = projection.scale()
-      const scaleFactor = currentScale / radius
+      const sf = currentScale / radius
 
-      // Draw ocean outline only (transparent fill for background use)
+      // Globe circle
       context.beginPath()
       context.arc(containerWidth / 2, containerHeight / 2, currentScale, 0, 2 * Math.PI)
-      context.strokeStyle = "rgba(255, 255, 255, 0.15)"
-      context.lineWidth = 1 * scaleFactor
+      context.strokeStyle = "rgba(255,255,255,0.15)"
+      context.lineWidth = 1 * sf
       context.stroke()
 
-      if (landFeatures) {
-        // Draw graticule
-        const graticule = d3.geoGraticule()
-        context.beginPath()
-        path(graticule())
-        context.strokeStyle = "#ffffff"
-        context.lineWidth = 1 * scaleFactor
-        context.globalAlpha = 0.25
-        context.stroke()
-        context.globalAlpha = 1
+      if (!landFeatures) return
 
-        // Draw land outlines
-        context.beginPath()
-        landFeatures.features.forEach((feature: any) => {
-          path(feature)
-        })
-        context.strokeStyle = "#ffffff"
-        context.lineWidth = 1 * scaleFactor
-        context.stroke()
+      // Graticule
+      const graticule = d3.geoGraticule()
+      context.beginPath()
+      path(graticule())
+      context.strokeStyle = "#ffffff"
+      context.lineWidth = 1 * sf
+      context.globalAlpha = 0.25
+      context.stroke()
+      context.globalAlpha = 1
 
-        // Draw halftone dots
-        allDots.forEach((dot) => {
-          const projected = projection([dot.lng, dot.lat])
-          if (
-            projected &&
-            projected[0] >= 0 &&
-            projected[0] <= containerWidth &&
-            projected[1] >= 0 &&
-            projected[1] <= containerHeight
-          ) {
-            context.beginPath()
-            context.arc(projected[0], projected[1], 1.2 * scaleFactor, 0, 2 * Math.PI)
-            context.fillStyle = "#999999"
-            context.fill()
-          }
-        })
+      // Land outlines
+      context.beginPath()
+      landFeatures.features.forEach((f: any) => path(f))
+      context.strokeStyle = "#ffffff"
+      context.lineWidth = 1 * sf
+      context.stroke()
+
+      // Dots
+      const r = 1.2 * sf
+      context.fillStyle = "#999999"
+      allDots.forEach((dot) => {
+        const projected = projection([dot.lng, dot.lat])
+        if (
+          projected &&
+          projected[0] >= 0 &&
+          projected[0] <= containerWidth &&
+          projected[1] >= 0 &&
+          projected[1] <= containerHeight
+        ) {
+          context.beginPath()
+          context.arc(projected[0], projected[1], r, 0, 2 * Math.PI)
+          context.fill()
+        }
+      })
+    }
+
+    // ─── Async chunked dot generation ───────────────────────────────────────────
+    // Processes one land feature at a time, yielding between each to avoid
+    // blocking the main thread (fixes the "lag spike" on load).
+
+    const DOT_SPACING = 16
+    const STEP = DOT_SPACING * 0.08
+
+    const generateDotsForFeature = (feature: any): [number, number][] => {
+      const dots: [number, number][] = []
+      const [[minLng, minLat], [maxLng, maxLat]] = d3.geoBounds(feature)
+      for (let lng = minLng; lng <= maxLng; lng += STEP) {
+        for (let lat = minLat; lat <= maxLat; lat += STEP) {
+          const p: [number, number] = [lng, lat]
+          if (pointInFeature(p, feature)) dots.push(p)
+        }
+      }
+      return dots
+    }
+
+    async function buildDots(features: any[]) {
+      for (const feature of features) {
+        const dots = generateDotsForFeature(feature)
+        dots.forEach(([lng, lat]) => allDots.push({ lng, lat }))
+        // Yield after each feature so the browser can repaint/handle events
+        await yieldToMain()
       }
     }
 
-    const loadWorldData = async () => {
-      try {
-        setIsLoading(true)
+    // ─── Rotation ───────────────────────────────────────────────────────────────
 
-        const response = await fetch(
-          "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json",
-        )
-        if (!response.ok) throw new Error("Failed to load land data")
-
-        landFeatures = await response.json()
-
-        // Generate dots for all land features
-        let totalDots = 0
-        landFeatures.features.forEach((feature: any) => {
-          const dots = generateDotsInPolygon(feature, 16)
-          dots.forEach(([lng, lat]) => {
-            allDots.push({ lng, lat, visible: true })
-            totalDots++
-          })
-        })
-
-        console.log(`[v0] Total dots generated: ${totalDots} across ${landFeatures.features.length} land features`)
-
-        render()
-        setIsLoading(false)
-      } catch (err) {
-        setError("Failed to load land map data")
-        setIsLoading(false)
-      }
-    }
-
-    // Set up rotation and interaction
     const rotation = [0, 0]
     let autoRotate = true
-    const autoRotateSpeed = 0.1
-
-    // Scroll momentum state
     let scrollVelocity = 0
-    const scrollDecay = 0.90 // how quickly momentum fades
+    const scrollDecay = 0.90
     const scrollSensitivity = 0.02
     let lastScrollY = window.scrollY
 
     const rotate = () => {
-      // Apply scroll momentum first
       if (Math.abs(scrollVelocity) > 0.01) {
         rotation[0] += scrollVelocity
         scrollVelocity *= scrollDecay
         projection.rotate(rotation)
         render()
       } else if (autoRotate) {
-        // Fallback gentle auto-rotation when no scroll
-        rotation[0] += autoRotateSpeed
+        rotation[0] += 0.1
         projection.rotate(rotation)
         render()
       }
     }
 
-    // Auto-rotation timer (runs every frame)
     const rotationTimer = d3.timer(rotate)
 
-    // Scroll handler — convert scroll delta to rotational momentum
     const handleScroll = () => {
       const currentScrollY = window.scrollY
       const delta = currentScrollY - lastScrollY
       lastScrollY = currentScrollY
-      // Add momentum proportional to scroll speed
       scrollVelocity += delta * scrollSensitivity
     }
-
     window.addEventListener("scroll", handleScroll, { passive: true })
 
     const handleMouseDown = (event: MouseEvent) => {
@@ -273,15 +207,11 @@ export default function RotatingEarth({
       const startY = event.clientY
       const startRotation = [...rotation]
 
-      const handleMouseMove = (moveEvent: MouseEvent) => {
-        const sensitivity = 0.5
-        const dx = moveEvent.clientX - startX
-        const dy = moveEvent.clientY - startY
-
-        rotation[0] = startRotation[0] + dx * sensitivity
-        rotation[1] = startRotation[1] - dy * sensitivity
-        rotation[1] = Math.max(-90, Math.min(90, rotation[1]))
-
+      const handleMouseMove = (e: MouseEvent) => {
+        const dx = e.clientX - startX
+        const dy = e.clientY - startY
+        rotation[0] = startRotation[0] + dx * 0.5
+        rotation[1] = Math.max(-90, Math.min(90, startRotation[1] - dy * 0.5))
         projection.rotate(rotation)
         render()
       }
@@ -295,43 +225,40 @@ export default function RotatingEarth({
       document.addEventListener("mousemove", handleMouseMove)
       document.addEventListener("mouseup", handleMouseUp)
     }
-
     canvas.addEventListener("mousedown", handleMouseDown)
 
-    // Load the world data
-    loadWorldData()
+    // ─── Load world data ────────────────────────────────────────────────────────
 
-    // Cleanup
+    let aborted = false
+
+    ;(async () => {
+      try {
+        const res = await fetch(
+          "https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/110m/physical/ne_110m_land.json",
+        )
+        if (!res.ok || aborted) return
+        landFeatures = await res.json()
+        if (aborted) return
+        // Build dots asynchronously, yielding between features
+        await buildDots(landFeatures.features)
+      } catch {
+        // Silently degrade — globe still renders in wireframe mode
+      }
+    })()
+
     return () => {
+      aborted = true
       rotationTimer.stop()
       window.removeEventListener("scroll", handleScroll)
       canvas.removeEventListener("mousedown", handleMouseDown)
     }
   }, [width, height, globeScale])
 
-  if (error) {
-    return (
-      <div className={`dark flex items-center justify-center bg-card rounded-2xl p-8 ${className}`}>
-        <div className="text-center">
-          <p className="dark text-destructive font-semibold mb-2">Error loading Earth visualization</p>
-          <p className="dark text-muted-foreground text-sm">{error}</p>
-        </div>
-      </div>
-    )
-  }
-
   return (
-    <motion.div 
-      className={`relative ${className}`}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 0.4, scale: 1 }}
-      transition={{ duration: 1.5, ease: "easeOut" }}
-    >
-      <canvas
-        ref={canvasRef}
-        className="w-full h-auto"
-        style={{ maxWidth: "100%", height: "auto", background: "transparent" }}
-      />
-    </motion.div>
+    <canvas
+      ref={canvasRef}
+      className={`w-full h-auto ${className}`}
+      style={{ maxWidth: "100%", height: "auto", background: "transparent" }}
+    />
   )
 }

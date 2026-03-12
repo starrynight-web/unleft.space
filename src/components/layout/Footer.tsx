@@ -86,6 +86,9 @@ export default function Footer() {
               <img 
                 src="/logos/unleft_logo.png" 
                 alt="" 
+                aria-hidden="true"
+                width={24}
+                height={24}
                 className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert" 
               />
               <span
@@ -122,6 +125,7 @@ export default function Footer() {
                     <li key={link.title}>
                       <a
                         href={link.href}
+                        aria-label={link.title}
                         target={
                           link.href.startsWith("http") ? "_blank" : undefined
                         }

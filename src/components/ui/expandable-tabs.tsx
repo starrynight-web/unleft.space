@@ -113,6 +113,7 @@ export function ExpandableTabs({
         const MotionComponent = (isLink ? motion.a : motion.button) as any;
         const tagProps = isLink ? { href: tab.href } : {};
 
+        const isActive = selected === index;
         return (
           <MotionComponent
             {...tagProps}
@@ -120,19 +121,21 @@ export function ExpandableTabs({
             variants={buttonVariants}
             initial={false}
             animate="animate"
-            custom={selected === index}
+            custom={isActive}
             onClick={() => handleSelect(index)}
             transition={transition}
+            aria-label={tab.title}
+            aria-current={isActive ? "page" : undefined}
             className={cn(
               "relative flex items-center rounded-xl px-4 py-2 text-sm font-medium transition-colors duration-300",
-              selected === index
+              isActive
                 ? cn("bg-muted", activeColor)
                 : "text-muted-foreground hover:bg-muted hover:text-foreground",
             )}
           >
-            <Icon size={20} />
+            <Icon size={20} aria-hidden="true" />
             <AnimatePresence initial={false}>
-              {selected === index && (
+              {isActive && (
                 <motion.span
                   variants={spanVariants}
                   initial="initial"
@@ -140,6 +143,7 @@ export function ExpandableTabs({
                   exit="exit"
                   transition={transition}
                   className="overflow-hidden"
+                  aria-hidden="true"
                 >
                   {tab.title}
                 </motion.span>

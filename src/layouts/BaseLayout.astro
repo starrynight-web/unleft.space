@@ -63,10 +63,19 @@ const fullTitle = `${title} | Unleft`;
     <!-- Preconnect for fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Non-blocking async font load — avoids render-blocking while preserving swap -->
     <link
       href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Libre+Barcode+39+Extended+Text&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&family=Libre+Barcode+39+Extended+Text&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
 
     <!-- Astro View Transitions: persists header, background, and cookie banner across navigations -->
     <ViewTransitions />
@@ -83,7 +92,7 @@ const fullTitle = `${title} | Unleft`;
       }
     </script>
     <SplashScreen client:load transition:persist="splash" />
-    <EtheralShadow client:load transition:persist="etheral-shadow" />
+    <EtheralShadow client:idle transition:persist="etheral-shadow" />
     <slot />
     <CookieBanner client:idle transition:persist="cookie-banner" />
   </body>

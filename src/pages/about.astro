@@ -2,6 +2,8 @@
 import PageLayout from '@/layouts/PageLayout.astro';
 import CTASection from '@/components/sections/CTASection.astro';
 import { Badge } from '@/components/ui/badge';
+import { LogoCloud } from '@/components/ui/logo-cloud-2';
+import { cn } from '@/lib/utils';
 import { Rocket, Target, Globe, Heart } from 'lucide-react';
 
 const values = [
@@ -15,6 +17,50 @@ const roadmap = [
   { year: 'Year 1', label: 'Service Provider', desc: 'Business websites, custom software, and early game prototypes.', active: true },
   { year: 'Year 2', label: 'Game Studio + SaaS', desc: 'Unity game releases, first SaaS product, and international clients.' },
   { year: 'Year 3', label: 'Global Brand', desc: 'Published games, multiple SaaS products, and a global engineering presence.' },
+];
+const team = [
+  {
+    name: 'Golam Rasul',
+    role: 'Chairperson',
+    desc: 'Leads Board, ensures vision & compliance.',
+    image: '/public/images/rasul1.jpg',
+    skills: ['Python', 'HTML', 'Ruby']
+  },
+  {
+    name: 'Sayma Ferdousi Fariha',
+    role: 'Managing Director',
+    desc: 'Aligns with investors & stakeholders.',
+    image: '/public/images/sayma.jpg',
+    skills: ['HTML', 'CSS', 'Python', 'Django']
+  },
+  {
+    name: 'Mahtabul Al Nahian',
+    role: 'Chief Operating Officer',
+    desc: 'Manages internal operations.',
+    image: '/public/images/mahtab.jpg',
+    skills: ['Next.Js','Astro','Tailwind CSS', 'JavaScript', 'Figma']
+  },
+  {
+    name: 'Nabila Rahman Rodela',
+    role: 'Chief Marketing Officer',
+    desc: 'Leads marketing and branding.',
+    image: '/public/logos/unleft_logo.png',
+    skills: ['HTML', 'CSS', 'SQL', 'SEO']
+  },
+  {
+    name: 'Tafrim Ahmed',
+    role: 'Chief Logic Operator',
+    desc: 'Ensures reliability with robust programming.',
+    image: '/public/images/tafrim.jpg',
+    skills: ['HTML', 'CSS', 'JavaScript','TensorFlow']
+  },
+  {
+    name: 'Golam Morshed Eashan',
+    role: 'Executive Controlling Officer',
+    desc: 'Controls operation, decision maker.',
+    image: '/public/images/eashan.jpg',
+    skills: ['Next.Js', 'Tailwind CSS', 'Python', 'Django', 'C#']
+  }
 ];
 ---
 
@@ -46,21 +92,65 @@ const roadmap = [
     </div>
   </section>
 
+  <!-- Team Section -->
+  <section class="py-24 max-w-7xl mx-auto px-6">
+    <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">Our Leadership</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-6 -space-x-px -space-y-px border-[#2D2D44] border-[0.5px]">
+      {team.map((member, index) => {
+        const isLeader = member.name === 'Golam Rasul';
+        // Logic to fill rows:
+        // Index 0: spans 6 (Row 1)
+        // Index 1, 2, 3: span 2 each (Row 2 fills 6)
+        // Index 4, 5: span 3 each (Row 3 fills 6)
+        let colSpan = "lg:col-span-2";
+        if (isLeader) colSpan = "lg:col-span-6 md:col-span-2";
+        else if (index >= 4) colSpan = "lg:col-span-3";
+        
+        return (
+          <div class={cn(
+            "group relative p-8 border-[#2D2D44] border-[0.5px] bg-[#0A0A0F]/70 transition-all duration-500 hover:bg-[#0D0D14] hover:z-10 overflow-hidden",
+            colSpan
+          )}>
+            {/* Ambient Glow */}
+            <div class="absolute -inset-4 bg-accent-primary/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            <div class={`relative z-10 flex ${isLeader ? 'md:flex-row flex-col items-start gap-8' : 'flex-col items-start'}`}>
+              <div class="shrink-0">
+                <img src={member.image} alt={member.name} class={`${isLeader ? 'w-32 h-32' : 'w-20 h-20'} rounded-2xl object-cover border-2 border-accent-primary/30 p-1 bg-[#0A0A0F] group-hover:scale-105 transition-transform duration-500`} />
+              </div>
+              <div class="flex-grow">
+                <div class="flex items-center gap-3">
+                    <h3 class={`font-bold text-text-primary ${isLeader ? 'text-2xl md:text-3xl' : 'text-lg'} group-hover:text-accent-glow transition-colors`}>{member.name}</h3>
+                    {isLeader && <Badge className="bg-accent-primary/20 text-accent-glow border-accent-primary/30 h-fit">Chairperson</Badge>}
+                </div>
+                <p class="text-accent-glow text-xs font-mono uppercase tracking-wider mt-1">{member.role}</p>
+                <p class={`mt-4 text-text-secondary leading-relaxed ${isLeader ? 'text-base max-w-2xl' : 'text-sm'}`}>{member.desc}</p>
+                <div class="mt-6 flex flex-wrap gap-2">
+                  {member.skills.map((skill) => (
+                    <span class="text-[10px] font-mono px-2 py-1 rounded bg-accent-primary/10 text-accent-glow border border-accent-primary/20">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  </section>
+
   <!-- Core Values -->
   <section class="bg-[#1A1A2E]/30 py-24">
     <div class="mx-auto max-w-7xl px-6">
       <h2 class="text-3xl font-bold text-text-primary mb-12 text-center">Core Values</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {values.map((v) => (
-          <div class="rounded-xl border border-[#2D2D44] bg-[#0A0A0F]/50 p-6 hover:border-accent-glow/30 transition-all group">
-            <div class="mb-4 h-12 w-12 rounded-lg bg-accent-primary/10 flex items-center justify-center group-hover:bg-accent-primary/20 transition-colors">
-              <v.icon class="h-6 w-6 text-accent-glow" />
-            </div>
-            <h3 class="font-bold text-text-primary mb-2">{v.title}</h3>
-            <p class="text-sm text-text-secondary leading-relaxed">{v.desc}</p>
-          </div>
-        ))}
-      </div>
+      <LogoCloud 
+        items={values.map(v => ({
+            icon: v.icon,
+            title: v.title,
+            description: v.desc
+        }))} 
+      />
     </div>
   </section>
 

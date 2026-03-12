@@ -1,0 +1,223 @@
+---
+const testimonials = [
+  {
+    name: 'Arif Rahman',
+    role: 'CEO',
+    company: 'TechStartup BD',
+    quote: 'Unleft delivered our MVP in record time. Their performance-first approach gave us a competitive edge from day one.',
+    initial: 'A',
+  },
+  {
+    name: 'Sara Khan',
+    role: 'Founder',
+    company: 'DesignCo',
+    quote: 'The website they built for us loads incredibly fast and looks stunning. Our conversion rate jumped 40% after launch.',
+    initial: 'S',
+  },
+  {
+    name: 'Marcus Lee',
+    role: 'CTO',
+    company: 'Helios Labs',
+    quote: 'Working with Unleft felt like having a world-class engineering team on speed dial. They moved faster than any agency I\'ve worked with.',
+    initial: 'M',
+  },
+  {
+    name: 'Priya Nair',
+    role: 'Product Lead',
+    company: 'Stackify',
+    quote: 'Their attention to detail in UI/UX is remarkable. The final product exceeded every expectation we had going in.',
+    initial: 'P',
+  },
+  {
+    name: 'James Okonkwo',
+    role: 'Director',
+    company: 'FinEdge',
+    quote: 'Security and performance were our top priorities. Unleft nailed both — rock-solid systems with blazing-fast load times.',
+    initial: 'J',
+  },
+  {
+    name: 'Lena Fischer',
+    role: 'Co-Founder',
+    company: 'NovaStream',
+    quote: 'The game features they implemented brought our vision to life exactly how we imagined. Incredible technical range.',
+    initial: 'L',
+  },
+];
+
+// Duplicate for infinite scroll
+const cards = [...testimonials, ...testimonials];
+---
+
+<section class="testimonials-section py-20 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-6 mb-14">
+    <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9CA3AF] text-center">Testimonials</p>
+    <h2 class="text-3xl font-bold text-[#E5E7EB] md:text-4xl text-center">Trusted by Builders</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-[#9CA3AF] text-center">
+      Early reviews and feedback from the clients and partners who help us grow.
+    </p>
+  </div>
+
+  <div class="embla-testimonials" id="embla-testimonials">
+    <div class="embla-testimonials__container" id="embla-testimonials-container">
+      {cards.map((t) => (
+        <div class="embla-testimonials__slide">
+          <article class="testimonial-card">
+            <div class="testimonial-quote-mark">"</div>
+            <p class="testimonial-text">{t.quote}</p>
+            <footer class="testimonial-footer">
+              <div class="testimonial-avatar">
+                <span>{t.initial}</span>
+              </div>
+              <div>
+                <p class="testimonial-name">{t.name}</p>
+                <p class="testimonial-meta">{t.role} · {t.company}</p>
+              </div>
+            </footer>
+          </article>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .testimonials-section {
+    position: relative;
+  }
+
+  .testimonials-section::before,
+  .testimonials-section::after {
+    content: '';
+    position: absolute;
+    top: 80px;
+    bottom: 0;
+    width: 180px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .testimonials-section::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+  }
+
+  .testimonials-section::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+  }
+
+  .embla-testimonials {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .embla-testimonials__container {
+    display: flex;
+    align-items: stretch;
+    gap: 20px;
+    will-change: transform;
+  }
+
+  .embla-testimonials__slide {
+    flex: 0 0 360px;
+    min-width: 0;
+  }
+
+  .testimonial-card {
+    position: relative;
+    height: 100%;
+    padding: 28px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.025);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: border-color 0.3s ease, background 0.3s ease, transform 0.3s ease;
+  }
+
+  .testimonial-card:hover {
+    border-color: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-2px);
+  }
+
+  .testimonial-quote-mark {
+    font-size: 3.5rem;
+    line-height: 1;
+    font-family: Georgia, serif;
+    color: rgba(255, 255, 255, 0.08);
+    position: absolute;
+    top: 16px;
+    right: 24px;
+    user-select: none;
+  }
+
+  .testimonial-text {
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: #9CA3AF;
+    flex: 1;
+    margin-top: 8px;
+  }
+
+  .testimonial-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-top: 16px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    margin-top: auto;
+  }
+
+  .testimonial-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #374151, #1f2937);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #E5E7EB;
+  }
+
+  .testimonial-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #E5E7EB;
+  }
+
+  .testimonial-meta {
+    font-size: 0.75rem;
+    color: #6B7280;
+    margin-top: 1px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .embla-testimonials__container {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  import AutoScroll from 'embla-carousel-auto-scroll';
+
+  function initTestimonialsCarousel() {
+    const el = document.getElementById('embla-testimonials');
+    if (!el) return;
+
+    EmblaCarousel(
+      el,
+      { loop: true, dragFree: true, watchDrag: true },
+      [AutoScroll({ speed: 0.5, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: true })]
+    );
+  }
+
+  document.addEventListener('DOMContentLoaded', initTestimonialsCarousel);
+</script>

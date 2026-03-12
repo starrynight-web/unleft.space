@@ -5,6 +5,8 @@ import WhatWeDo from '@/components/sections/WhatWeDo.astro';
 import CTASection from '@/components/sections/CTASection.astro';
 import ExpertiseSection from '@/components/sections/ExpertiseSection.astro';
 import GlobeWrapper from '@/components/sections/GlobeWrapper.astro';
+import TechStack from '@/components/sections/TechStack.astro';
+import TestimonialsCarousel from '@/components/sections/TestimonialsCarousel.astro';
 ---
 
 <PageLayout title="Home" description="Engineering the Future. We build scalable digital systems, high-performance websites, and cross-platform games.">
@@ -20,6 +22,12 @@ import GlobeWrapper from '@/components/sections/GlobeWrapper.astro';
 
   <!-- Expertise section below Core Services -->
   <ExpertiseSection />
+
+  <!-- Tech stack auto-scrolling marquee -->
+  <TechStack />
+
+  <!-- Client testimonials auto-scrolling carousel -->
+  <TestimonialsCarousel />
 
   <CTASection />
 </PageLayout>

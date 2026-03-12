@@ -106,18 +106,20 @@ export default function ContactForm() {
 
       <div className="grid sm:grid-cols-2 gap-6">
         <div>
-          <label className={labelClasses}>Name *</label>
+          <label htmlFor="name" className={labelClasses}>Name *</label>
           <input
             {...register("name")}
+            id="name"
             className={inputClasses}
             placeholder="John Doe"
           />
           {errors.name && <p className={errorClasses}>{errors.name.message}</p>}
         </div>
         <div>
-          <label className={labelClasses}>Email *</label>
+          <label htmlFor="email" className={labelClasses}>Email *</label>
           <input
             {...register("email")}
+            id="email"
             type="email"
             className={inputClasses}
             placeholder="john@example.com"
@@ -129,9 +131,10 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className={labelClasses}>Company</label>
+        <label htmlFor="company" className={labelClasses}>Company</label>
         <input
           {...register("company")}
+          id="company"
           className={inputClasses}
           placeholder="Your company (optional)"
         />
@@ -139,8 +142,8 @@ export default function ContactForm() {
 
       <div className="grid sm:grid-cols-2 gap-6">
         <div>
-          <label className={labelClasses}>Service Interest *</label>
-          <select {...register("serviceInterest")} className={inputClasses}>
+          <label htmlFor="serviceInterest" className={labelClasses}>Service Interest *</label>
+          <select {...register("serviceInterest")} id="serviceInterest" className={inputClasses}>
             <option value="">Select a service...</option>
             {services.map((s) => (
               <option key={s} value={s}>
@@ -153,8 +156,8 @@ export default function ContactForm() {
           )}
         </div>
         <div>
-          <label className={labelClasses}>Budget Range</label>
-          <select {...register("budgetRange")} className={inputClasses}>
+          <label htmlFor="budgetRange" className={labelClasses}>Budget Range</label>
+          <select {...register("budgetRange")} id="budgetRange" className={inputClasses}>
             <option value="">Select budget (optional)</option>
             {budgets.map((b) => (
               <option key={b} value={b}>
@@ -166,9 +169,10 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className={labelClasses}>Message *</label>
+        <label htmlFor="message" className={labelClasses}>Message *</label>
         <textarea
           {...register("message")}
+          id="message"
           className={`${inputClasses} h-32 resize-none`}
           placeholder="Tell us about your project..."
         />
@@ -199,9 +203,10 @@ export default function ContactForm() {
         )}
       </Button>
 
-      <p className="text-xs text-center text-[#9CA3AF]/60">
+      {/* Boosted contrast: text-[#9CA3AF] meets 4.5:1 on dark bg; link has underline + brighter color */}
+      <p className="text-xs text-center text-[#9CA3AF]">
         We reply within 24 hours. Your data is protected per our{" "}
-        <a href="/legal/privacy" className="text-[#C084FC] hover:underline">
+        <a href="/legal/privacy" className="text-[#D8A8FF] underline hover:text-white transition-colors">
           Privacy Policy
         </a>
         .

@@ -1,0 +1,202 @@
+---
+import { svg as reactSvg, title as reactTitle } from 'thesvg/react';
+import { svg as nextSvg, title as nextTitle } from 'thesvg/nextdotjs';
+import { svg as astroSvg, title as astroTitle } from 'thesvg/astro';
+import { svg as tailwindSvg, title as tailwindTitle } from 'thesvg/tailwind-css';
+import { svg as framerSvg, title as framerTitle } from 'thesvg/framer';
+import { svg as nodeSvg, title as nodeTitle } from 'thesvg/nodedotjs';
+import { svg as pythonSvg, title as pythonTitle } from 'thesvg/python';
+import { svg as djangoSvg, title as djangoTitle } from 'thesvg/django';
+import { svg as mongoSvg, title as mongoTitle } from 'thesvg/mongodb';
+import { svg as supabaseSvg, title as supabaseTitle } from 'thesvg/supabase';
+import { svg as unitySvg, title as unityTitle } from 'thesvg/unity';
+import { svg as csharpSvg, title as csharpTitle } from 'thesvg/csharp';
+import { svg as threeSvg, title as threeTitle } from 'thesvg/threedotjs';
+import { svg as webglSvg, title as webglTitle } from 'thesvg/webgl';
+import { svg as dockerSvg, title as dockerTitle } from 'thesvg/docker';
+import { svg as vercelSvg, title as vercelTitle } from 'thesvg/vercel';
+import { svg as netlifySvg, title as netlifyTitle } from 'thesvg/netlify';
+import { svg as renderSvg, title as renderTitle } from 'thesvg/render';
+import { svg as tensorflowSvg, title as tensorflowTitle } from 'thesvg/tensorflow';
+
+const rowOne = [
+  { svg: reactSvg, title: reactTitle },
+  { svg: nextSvg, title: nextTitle },
+  { svg: astroSvg, title: astroTitle },
+  { svg: tailwindSvg, title: tailwindTitle },
+  { svg: framerSvg, title: framerTitle },
+  { svg: nodeSvg, title: nodeTitle },
+  { svg: pythonSvg, title: pythonTitle },
+  { svg: djangoSvg, title: djangoTitle },
+  { svg: mongoSvg, title: mongoTitle },
+  { svg: supabaseSvg, title: supabaseTitle },
+];
+
+const rowTwo = [
+  { svg: unitySvg, title: unityTitle },
+  { svg: csharpSvg, title: csharpTitle },
+  { svg: threeSvg, title: threeTitle },
+  { svg: webglSvg, title: webglTitle },
+  { svg: dockerSvg, title: dockerTitle },
+  { svg: vercelSvg, title: vercelTitle },
+  { svg: netlifySvg, title: netlifyTitle },
+  { svg: renderSvg, title: renderTitle },
+  { svg: tensorflowSvg, title: tensorflowTitle },
+  { svg: reactSvg, title: reactTitle },
+];
+---
+
+<section class="tech-stack-section py-20 overflow-hidden">
+  <div class="mx-auto max-w-7xl px-6 mb-12">
+    <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9CA3AF] text-center">Built With</p>
+    <h2 class="text-3xl font-bold text-[#E5E7EB] md:text-4xl text-center">Our Tech Stack</h2>
+    <p class="mx-auto mt-4 max-w-2xl text-[#9CA3AF] text-center">
+      The technologies we wield to build fast, scalable, and unforgettable digital products.
+    </p>
+  </div>
+
+  <!-- Row 1: scrolls left -->
+  <div class="embla-tech" id="embla-row1">
+    <div class="embla-tech__container" id="embla-row1-container">
+      {[...rowOne, ...rowOne].map((icon) => (
+        <div class="embla-tech__slide">
+          <div class="tech-icon-pill">
+            <span class="tech-icon-svg" set:html={icon.svg} />
+            <span class="tech-icon-label">{icon.title}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Row 2: scrolls right -->
+  <div class="embla-tech mt-4" id="embla-row2">
+    <div class="embla-tech__container" id="embla-row2-container">
+      {[...rowTwo, ...rowTwo].map((icon) => (
+        <div class="embla-tech__slide">
+          <div class="tech-icon-pill">
+            <span class="tech-icon-svg" set:html={icon.svg} />
+            <span class="tech-icon-label">{icon.title}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .tech-stack-section {
+    position: relative;
+  }
+
+  .tech-stack-section::before,
+  .tech-stack-section::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 180px;
+    z-index: 10;
+    pointer-events: none;
+  }
+
+  .tech-stack-section::before {
+    left: 0;
+    background: linear-gradient(to right, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+  }
+
+  .tech-stack-section::after {
+    right: 0;
+    background: linear-gradient(to left, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+  }
+
+  .embla-tech {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .embla-tech__container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    will-change: transform;
+  }
+
+  .embla-tech__slide {
+    flex: 0 0 auto;
+  }
+
+  .tech-icon-pill {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 9999px;
+    background: rgba(255, 255, 255, 0.03);
+    transition: border-color 0.2s ease, background 0.2s ease;
+    white-space: nowrap;
+  }
+
+  .tech-icon-pill:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  .tech-icon-svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  .tech-icon-svg :global(svg) {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    color: #9CA3AF;
+  }
+
+  .tech-icon-label {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: #9CA3AF;
+    letter-spacing: 0.02em;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .embla-tech__container {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import EmblaCarousel from 'embla-carousel';
+  import AutoScroll from 'embla-carousel-auto-scroll';
+
+  function initTechCarousels() {
+    const row1El = document.getElementById('embla-row1');
+    const row2El = document.getElementById('embla-row2');
+
+    if (row1El) {
+      EmblaCarousel(
+        row1El,
+        { loop: true, dragFree: true, watchDrag: false },
+        [AutoScroll({ speed: 1, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: false })]
+      );
+    }
+
+    if (row2El) {
+      EmblaCarousel(
+        row2El,
+        { loop: true, dragFree: true, watchDrag: false },
+        [AutoScroll({ speed: 1, startDelay: 0, direction: 'backward', stopOnInteraction: false, stopOnMouseEnter: false })]
+      );
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initTechCarousels);
+</script>

@@ -51,12 +51,15 @@ function UnleftLogo() {
   return (
     <a
       href="/"
-      aria-label="Unleft — home"
+      aria-label="UNLEFT.LLC — home"
       className="flex items-center gap-1.5 flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
     >
       <img 
         src="/logos/unleft_logo.png" 
         alt="" 
+        aria-hidden="true"
+        width={24}
+        height={24}
         className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert" 
       />
       <span
