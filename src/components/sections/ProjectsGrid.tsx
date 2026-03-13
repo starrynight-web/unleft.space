@@ -13,6 +13,11 @@ interface ProjectItem {
   extendedTech: string[];
   status: string;
   color: string;
+  image?: string;
+  links?: {
+    github?: string;
+    website?: string;
+  };
 }
 
 const categoryIconMap: Record<string, React.ReactNode> = {
@@ -49,6 +54,8 @@ export default function ProjectsGrid({ projects }: { projects: ProjectItem[] }) 
             color={project.color}
             isRevealed={revealedIds.has(project.title)}
             onHover={() => handleHover(project.title)}
+            image={project.image}
+            links={project.links}
             className="h-full"
           />
         ))}

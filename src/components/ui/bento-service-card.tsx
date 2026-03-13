@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { Github, Globe, ExternalLink } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 
@@ -14,6 +15,11 @@ interface BentoServiceCardProps {
   isRevealed: boolean;
   onHover: () => void;
   className?: string;
+  image?: string;
+  links?: {
+    github?: string;
+    website?: string;
+  };
 }
 
 export default function BentoServiceCard({
@@ -26,6 +32,8 @@ export default function BentoServiceCard({
   isRevealed,
   onHover,
   className,
+  image,
+  links,
 }: BentoServiceCardProps) {
   const p = genDeterministicPattern(title);
 
@@ -40,6 +48,21 @@ export default function BentoServiceCard({
       )}
       layout
     >
+      {/* Background Image with Overlay */}
+      {image && (
+        <div className="absolute inset-0 z-0">
+          <img
+            src={image}
+            alt={title}
+            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+          />
+          <div
+            className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/80 to-transparent"
+            style={{ backgroundColor: `${color}10` }}
+          />
+        </div>
+      )}
+
       {/* Deterministic Grid Pattern (from Grid Feature Cards) */}
       <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(white,transparent)]">
         <div className="absolute inset-0 bg-gradient-to-r from-foreground/5 to-foreground/1 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
@@ -102,8 +125,38 @@ export default function BentoServiceCard({
                       <span>{feature}</span>
                     </motion.div>
                   ))}
-                </div>
-              </motion.div>
+                  </div>
+
+                  {/* Links Section */}
+                  {links && (links.github || links.website) && (
+                    <div className="mt-4 flex gap-4">
+                      {links.github && (
+                        <a
+                          href={links.github}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-xs text-[#9CA3AF] transition-colors hover:text-[#E5E7EB]"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Github className="h-4 w-4" />
+                          <span>GitHub</span>
+                        </a>
+                      )}
+                      {links.website && (
+                        <a
+                          href={links.website}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-xs text-[#9CA3AF] transition-colors hover:text-[#E5E7EB]"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Globe className="h-4 w-4" />
+                          <span>Website</span>
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </motion.div>
             )}
           </AnimatePresence>
         </div>

@@ -40,7 +40,7 @@ export default function HeroContent() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
             <HoverButton
               onClick={() => (window.location.href = "/contact")}
-              className="inline-flex items-center shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+              className="inline-flex items-center shadow-[0_0_20px_rgba(124,58,237,0.2)]"
             >
               Start a Project <ChevronRight className="ml-2 h-4 w-4" />
             </HoverButton>
@@ -49,7 +49,7 @@ export default function HeroContent() {
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
             <HoverButton
               onClick={() => (window.location.href = "/projects")}
-              className="inline-flex items-center shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+              className="inline-flex items-center [--circle-start:#C084FC] [--circle-end:#7B2CBF] bg-[#7B2CBF]/10 text-white border border-[#C084FC]/30 hover:bg-[#7B2CBF]/20 shadow-[0_0_20px_rgba(124,58,237,0.3)]"
             >
               Explore Our Work <MoveRight className="ml-2 h-4 w-4" />
             </HoverButton>

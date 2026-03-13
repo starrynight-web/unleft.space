@@ -1,55 +1,65 @@
 ---
 import PageLayout from '@/layouts/PageLayout.astro';
-import ProjectsGrid from '@/components/sections/ProjectsGrid';
+import ProjectShowcase from '@/components/sections/ProjectShowcase';
 import { Badge } from '@/components/ui/badge';
 
 const projects = [
   {
-    title: 'Unleft OS',
-    category: 'System Design',
-    subtitle: 'Terminal-inspired command center',
-    description: 'A futuristic terminal-inspired dashboard for high-frequency data management. Built with a real-time WebSocket layer, command palette, and multi-workspace layout engine. Think a modern IDE crossed with a war room display.',
-    tech: ['React', 'TypeScript', 'Tailwind'],
-    extendedTech: ['WebSocket layer', 'Command Palette API', 'Monaco Editor integration', 'Real-time data streams'],
-    status: 'In Development',
-    color: '#7C3AED',
-  },
-  {
-    title: 'Cosmic Voyager',
-    category: 'Game',
-    subtitle: 'Space exploration meets narrative RPG',
-    description: 'A cross-platform space exploration game built with Unity and C#. Features a procedurally generated galaxy, narrative branching dialogue, physics-based ship maneuvering, and a full multiplayer co-op mode powered by Photon Fusion.',
-    tech: ['Unity', 'C#', 'Post Processing'],
-    extendedTech: ['Photon Fusion multiplayer', 'Procedural generation', 'Custom shader graph VFX', 'Adaptive music system'],
-    status: 'Refinement',
-    color: '#3B82F6',
-  },
-  {
-    title: 'Nexus CMS',
+    title: 'EduPlex',
     category: 'SaaS',
-    subtitle: 'Blazing-fast decentralized content API',
-    description: 'Blazing fast content delivery API for decentralized applications. Built on a distributed architecture with edge caching, GraphQL federation, granular role-based access control, and a webhook event system for third-party integrations.',
-    tech: ['Node.js', 'MongoDB', 'AWS'],
-    extendedTech: ['GraphQL federation', 'Edge CDN caching', 'RBAC permission model', 'Webhook event system'],
+    subtitle: 'Modern Learning Management System',
+    description: 'A comprehensive educational platform designed to streamline student workflows and course administration. Features a highly interactive interface for both educators and students.',
+    tech: ['TypeScript', 'Astro', 'Tailwind'],
+    extendedTech: ['Student Dashboard', 'Course Management', 'Interactive Learning', 'Real-time Updates'],
+    status: 'Live',
+    color: '#3B82F6',
+    image: '/images/eduplex.png',
+    links: {
+      github: 'https://github.com/starrynight-web/EduPlex-main',
+      website: 'https://eduplex-diu.unleft.space/'
+    }
+  },
+  {
+    title: 'MrBikeBD',
+    category: 'SaaS',
+    subtitle: 'Motorcycle E-commerce & Logistics',
+    description: 'A specialized platform for the motorcycle industry, managing complex inventory, service scheduling, and parts distribution across a unified digital ecosystem.',
+    tech: ['TypeScript', 'Node.js', 'PostgreSQL'],
+    extendedTech: ['Inventory Tracking', 'Secure Checkout', 'Service Scheduling', 'Logistics Management'],
     status: 'Live',
     color: '#10B981',
+    image: '/images/mrbike.png',
+    links: {
+      github: 'https://github.com/starrynight-web/mrbike-production/tree/backend-rollback'
+    }
   },
 ];
 ---
 
-<PageLayout title="Projects" description="Explore Unleft's portfolio of projects — from real-time dashboards and SaaS platforms to Unity game worlds and AI-powered systems.">
-  <section class="w-full px-4 md:px-12 py-24 text-center">
-    <Badge className="mb-6 bg-accent-primary/10 text-accent-glow border-none mx-auto w-fit">Our Portfolio</Badge>
-    <h1 class="text-4xl md:text-6xl font-bold text-text-primary mb-8 tracking-tighter" style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}>
-      Proof of <span class="text-accent-primary">Concept</span>.
-    </h1>
-    <p class="text-xl text-text-secondary leading-relaxed mb-12 max-w-2xl mx-auto">
-      A glimpse into the digital systems and creative experiments we've engineered. From enterprise platforms to gaming worlds.
-    </p>
+<PageLayout title="Projects" description="Explore Unleft's portfolio — real-world applications built with precision, from LMS platforms to e-commerce systems.">
+  <!-- Hero Section -->
+  <section class="w-full px-4 md:px-12 pt-24 pb-16 text-center relative">
+    <!-- Background grid shimmer -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden opacity-20">
+      <div class="absolute inset-0 bg-[linear-gradient(to_right,#2D2D44_1px,transparent_1px),linear-gradient(to_bottom,#2D2D44_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]"></div>
+    </div>
+
+    <div class="relative z-10">
+      <Badge className="mb-6 bg-accent-primary/10 text-accent-glow border-none mx-auto w-fit">Our Portfolio</Badge>
+      <h1
+        class="text-5xl md:text-7xl font-bold text-text-primary mb-6 tracking-tighter leading-none"
+        style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
+      >
+        Proof of <span class="text-accent-primary">Concept</span>.
+      </h1>
+      <p class="text-lg text-text-secondary leading-relaxed max-w-xl mx-auto">
+        Real systems, shipped. Each project is a case study in turning complex requirements into elegant, functional software.
+      </p>
+    </div>
   </section>
 
-  <section class="max-w-7xl mx-auto px-6 pb-24">
-
-    <ProjectsGrid client:visible projects={projects} />
+  <!-- Showcase Section -->
+  <section class="max-w-6xl mx-auto px-6 pb-32">
+    <ProjectShowcase client:visible projects={projects} />
   </section>
 </PageLayout>

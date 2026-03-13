@@ -8,7 +8,7 @@ import { Check, ArrowRight } from 'lucide-react';
 const tiers = [
   {
     name: 'Starter',
-    price: '$499',
+    price: '৳15,000',
     description: 'Perfect for small businesses needing a professional web presence.',
     features: ['Up to 5 pages', 'Responsive design', 'Basic SEO optimization', 'Contact form', '1 month support'],
     cta: 'Get Started',
@@ -16,7 +16,7 @@ const tiers = [
   },
   {
     name: 'Growth',
-    price: '$1,499',
+    price: '৳50,000',
     description: 'For SMEs needing advanced features and performance optimization.',
     features: ['Up to 15 pages', 'Custom design system', 'CMS integration', 'Performance optimization', 'Analytics setup', '3 months support'],
     cta: 'Get Started',
@@ -24,7 +24,7 @@ const tiers = [
   },
   {
     name: 'Enterprise',
-    price: '$5,000+',
+    price: '৳1,00,000+',
     description: 'Full-scale custom systems with scalable backend and DevOps.',
     features: ['Unlimited pages', 'Custom backend', 'Database design', 'CI/CD pipeline', 'Security audit', '6 months support'],
     cta: 'Contact Us',
@@ -66,7 +66,7 @@ const tiers = [
           <CardContent className="flex flex-col flex-1 mt-auto">
             <div class="mb-10 p-6 rounded-2xl bg-[#0A0A0F]/50 border border-[#2D2D44]/30">
               <span class="text-4xl font-bold text-text-primary tracking-tight">{tier.price}</span>
-              {tier.price !== '$5,000+' && <span class="text-text-secondary ml-1.5 text-sm uppercase tracking-widest">/ project</span>}
+              {!tier.price.includes('+') && <span class="text-text-secondary ml-1.5 text-sm uppercase tracking-widest">/ project</span>}
             </div>
 
             <ul class="space-y-4 mb-10 flex-1">

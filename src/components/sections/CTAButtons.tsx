@@ -12,7 +12,7 @@ export default function CTAButtons() {
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
           <HoverButton
             onClick={() => (window.location.href = "/contact")}
-            className="h-14 px-10 text-lg font-bold shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+            className="h-14 px-10 text-lg font-bold shadow-[0_0_20px_rgba(124,58,237,0.2)]"
           >
             Start a Project
           </HoverButton>
@@ -20,7 +20,7 @@ export default function CTAButtons() {
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.97 }}>
           <HoverButton
             onClick={() => (window.location.href = "/projects")}
-            className="h-14 px-10 text-lg font-bold shadow-[0_0_20px_rgba(124,58,237,0.4)]"
+            className="h-14 px-10 text-lg font-bold [--circle-start:#C084FC] [--circle-end:#7B2CBF] bg-[#7B2CBF]/10 text-white border border-[#C084FC]/30 hover:bg-[#7B2CBF]/20 shadow-[0_0_20px_rgba(124,58,237,0.3)]"
           >
             View Our Work
           </HoverButton>

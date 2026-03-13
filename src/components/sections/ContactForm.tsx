@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
+import { HoverButton } from "@/components/ui/hover-button";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 
 // Full schema including optional custom-quote fields
@@ -201,11 +202,10 @@ export default function ContactForm({ showCustomFields: showCustomFieldsProp }: 
         </div>
       )}
 
-      <Button
+      <HoverButton
         type="submit"
-        size="lg"
         disabled={status === "submitting"}
-        className="w-full h-14 border-none bg-gradient-to-r from-[#7B2CBF] to-[#9D4EDD] text-white font-bold tracking-wide disabled:opacity-50"
+        className="w-full h-14 border-none [--circle-start:#C084FC] [--circle-end:#7B2CBF] bg-[#7B2CBF]/10 text-white border border-[#C084FC]/30 hover:bg-[#7B2CBF]/20 shadow-[0_0_20px_rgba(124,58,237,0.3)] font-bold tracking-wide disabled:opacity-50"
       >
         {status === "submitting" ? (
           <>
@@ -214,7 +214,7 @@ export default function ContactForm({ showCustomFields: showCustomFieldsProp }: 
         ) : (
           "Send Message"
         )}
-      </Button>
+      </HoverButton>
 
       <p className="text-xs text-center text-[#9CA3AF]">
         We reply within 24 hours. Your data is protected per our{" "}

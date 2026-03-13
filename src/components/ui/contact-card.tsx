@@ -20,6 +20,7 @@ type ContactCardProps = React.ComponentProps<'div'> & {
 	description?: string;
 	contactInfo?: ContactInfoItem[];
 	formSectionClassName?: string;
+	infoExtra?: React.ReactNode;
 };
 
 export function ContactCard({
@@ -28,6 +29,7 @@ export function ContactCard({
 	contactInfo,
 	className,
 	formSectionClassName,
+	infoExtra,
 	children,
 	...props
 }: ContactCardProps) {
@@ -52,6 +54,7 @@ export function ContactCard({
 					<p className="text-text-secondary max-w-xl text-sm md:text-base lg:text-lg leading-relaxed">
 						{description}
 					</p>
+					{infoExtra}
 					<div className="grid gap-6 mt-8">
 						{contactInfo?.map((info, index) => (
 							<ContactInfo key={index} {...info} />
