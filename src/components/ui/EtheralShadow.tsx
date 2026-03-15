@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useRef, useId, useEffect } from "react";
+import React, { useId } from "react";
 import type { CSSProperties } from "react";
-import { animate, useMotionValue } from "framer-motion";
 
 // Type definitions
 interface ResponsiveImage {
@@ -68,45 +67,17 @@ export function EtheralShadow({
   position = "fixed",
 }: ShadowOverlayProps & { zIndex?: number; position?: "fixed" | "absolute" }) {
   const id = useInstanceId();
+
   const animationEnabled = animation && animation.scale > 0;
-  const feColorMatrixRef = useRef<SVGFEColorMatrixElement>(null);
-  const hueRotateMotionValue = useMotionValue(180);
-  const hueRotateAnimation = useRef<any>(null);
 
   const displacementScale = animation
     ? mapRange(animation.scale, 1, 100, 20, 100)
     : 0;
-  const animationDuration = animation
-    ? mapRange(animation.speed, 1, 100, 1000, 50)
-    : 1;
 
-  useEffect(() => {
-    if (feColorMatrixRef.current && animationEnabled) {
-      if (hueRotateAnimation.current) {
-        hueRotateAnimation.current.stop();
-      }
-      hueRotateMotionValue.set(0);
-      hueRotateAnimation.current = animate(hueRotateMotionValue, 360, {
-        duration: animationDuration / 25,
-        repeat: Infinity,
-        repeatType: "loop",
-        repeatDelay: 0,
-        ease: "linear",
-        delay: 0,
-        onUpdate: (value: number) => {
-          if (feColorMatrixRef.current) {
-            feColorMatrixRef.current.setAttribute("values", String(value));
-          }
-        },
-      });
-
-      return () => {
-        if (hueRotateAnimation.current) {
-          hueRotateAnimation.current.stop();
-        }
-      };
-    }
-  }, [animationEnabled, animationDuration, hueRotateMotionValue]);
+  // Calculate duration string for CSS/SVG animation (e.g., "4s")
+  const animationDurationStr = animation
+    ? `${mapRange(animation.speed, 1, 100, 40, 2)}s`
+    : "10s";
 
   return (
     <div
@@ -127,25 +98,35 @@ export function EtheralShadow({
           position: "absolute",
           inset: -displacementScale,
           filter: animationEnabled ? `url(#${id}) blur(4px)` : "none",
+          willChange: animationEnabled ? "filter, transform" : "auto",
+          transform: "translateZ(0)", // Force GPU composite layer
         }}
       >
         {animationEnabled && (
-          <svg style={{ position: "absolute" }}>
+          <svg style={{ position: "absolute", width: 0, height: 0 }}>
             <defs>
               <filter id={id}>
+                {/* Reduced numOctaves from 2 to 1 for performance */}
                 <feTurbulence
                   result="undulation"
-                  numOctaves="2"
+                  numOctaves="1"
                   baseFrequency={`${mapRange(animation.scale, 0, 100, 0.001, 0.0005)},${mapRange(animation.scale, 0, 100, 0.004, 0.002)}`}
                   seed="0"
                   type="turbulence"
                 />
                 <feColorMatrix
-                  ref={feColorMatrixRef}
                   in="undulation"
                   type="hueRotate"
                   values="180"
-                />
+                >
+                  <animate
+                    attributeName="values"
+                    from="0"
+                    to="360"
+                    dur={animationDurationStr}
+                    repeatCount="indefinite"
+                  />
+                </feColorMatrix>
                 <feColorMatrix
                   in="dist"
                   result="circulation"

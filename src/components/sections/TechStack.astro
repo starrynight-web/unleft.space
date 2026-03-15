@@ -1,25 +1,28 @@
 ---
-import { svg as reactSvg, title as reactTitle } from 'thesvg/react';
-import { svg as nextSvg, title as nextTitle } from 'thesvg/nextdotjs';
-import { svg as astroSvg, title as astroTitle } from 'thesvg/astro';
-import { svg as tailwindSvg, title as tailwindTitle } from 'thesvg/tailwind-css';
-import { svg as framerSvg, title as framerTitle } from 'thesvg/framer';
-import { svg as nodeSvg, title as nodeTitle } from 'thesvg/nodedotjs';
-import { svg as pythonSvg, title as pythonTitle } from 'thesvg/python';
-import { svg as djangoSvg, title as djangoTitle } from 'thesvg/django';
-import { svg as mongoSvg, title as mongoTitle } from 'thesvg/mongodb';
-import { svg as supabaseSvg, title as supabaseTitle } from 'thesvg/supabase';
-import { svg as unitySvg, title as unityTitle } from 'thesvg/unity';
-import { svg as csharpSvg, title as csharpTitle } from 'thesvg/csharp';
-import { svg as threeSvg, title as threeTitle } from 'thesvg/threedotjs';
-import { svg as webglSvg, title as webglTitle } from 'thesvg/webgl';
-import { svg as dockerSvg, title as dockerTitle } from 'thesvg/docker';
-import { svg as vercelSvg, title as vercelTitle } from 'thesvg/vercel';
-import { svg as netlifySvg, title as netlifyTitle } from 'thesvg/netlify';
-import { svg as renderSvg, title as renderTitle } from 'thesvg/render';
-import { tensorflowSvg } from '@/lib/custom-icons';
-const tensorflowTitle = 'TensorFlow';
-import { uniqueifySvgIds } from '@/lib/utils';
+import { svg as reactSvg, title as reactTitle } from "thesvg/react";
+import { svg as nextSvg, title as nextTitle } from "thesvg/nextdotjs";
+import { svg as astroSvg, title as astroTitle } from "thesvg/astro";
+import {
+  svg as tailwindSvg,
+  title as tailwindTitle,
+} from "thesvg/tailwind-css";
+import { svg as framerSvg, title as framerTitle } from "thesvg/framer";
+import { svg as nodeSvg, title as nodeTitle } from "thesvg/nodedotjs";
+import { svg as pythonSvg, title as pythonTitle } from "thesvg/python";
+import { svg as djangoSvg, title as djangoTitle } from "thesvg/django";
+import { svg as mongoSvg, title as mongoTitle } from "thesvg/mongodb";
+import { svg as supabaseSvg, title as supabaseTitle } from "thesvg/supabase";
+import { svg as unitySvg, title as unityTitle } from "thesvg/unity";
+import { svg as csharpSvg, title as csharpTitle } from "thesvg/csharp";
+import { svg as threeSvg, title as threeTitle } from "thesvg/threedotjs";
+import { svg as webglSvg, title as webglTitle } from "thesvg/webgl";
+import { svg as dockerSvg, title as dockerTitle } from "thesvg/docker";
+import { svg as vercelSvg, title as vercelTitle } from "thesvg/vercel";
+import { svg as netlifySvg, title as netlifyTitle } from "thesvg/netlify";
+import { svg as renderSvg, title as renderTitle } from "thesvg/render";
+import { tensorflowSvg } from "@/lib/custom-icons";
+const tensorflowTitle = "TensorFlow";
+import { uniqueifySvgIds } from "@/lib/utils";
 
 const rowOne = [
   { svg: uniqueifySvgIds(reactSvg, reactTitle), title: reactTitle },
@@ -43,45 +46,68 @@ const rowTwo = [
   { svg: uniqueifySvgIds(vercelSvg, vercelTitle), title: vercelTitle },
   { svg: uniqueifySvgIds(netlifySvg, netlifyTitle), title: netlifyTitle },
   { svg: uniqueifySvgIds(renderSvg, renderTitle), title: renderTitle },
-  { svg: uniqueifySvgIds(tensorflowSvg, tensorflowTitle), title: tensorflowTitle },
-  { svg: uniqueifySvgIds(reactSvg, 'react-2'), title: reactTitle },
+  {
+    svg: uniqueifySvgIds(tensorflowSvg, tensorflowTitle),
+    title: tensorflowTitle,
+  },
+  { svg: uniqueifySvgIds(reactSvg, "react-2"), title: reactTitle },
 ];
 ---
 
 <section class="tech-stack-section py-20 overflow-hidden">
   <div class="mx-auto max-w-7xl px-6 mb-12">
-    <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9CA3AF] text-center">Built With</p>
-    <h2 class="text-3xl font-bold text-[#E5E7EB] md:text-4xl text-center">Our Tech Stack</h2>
+    <p
+      class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-[#9CA3AF] text-center"
+    >
+      Built With
+    </p>
+    <h2 class="text-3xl font-bold text-[#E5E7EB] md:text-4xl text-center">
+      Our Tech Stack
+    </h2>
     <p class="mx-auto mt-4 max-w-2xl text-[#9CA3AF] text-center">
-      The technologies we wield to build fast, scalable, and unforgettable digital products.
+      The technologies we wield to build fast, scalable, and unforgettable
+      digital products.
     </p>
   </div>
 
   <!-- Row 1: scrolls left -->
   <div class="embla-tech" id="embla-row1">
     <div class="embla-tech__container" id="embla-row1-container">
-      {[...rowOne, ...rowOne].map((icon, idx) => (
-        <div class="embla-tech__slide">
-          <div class="tech-icon-pill">
-            <span class="tech-icon-svg" set:html={uniqueifySvgIds(icon.svg, `${icon.title}-${idx}`)} />
-            <span class="tech-icon-label">{icon.title}</span>
+      {
+        [...rowOne, ...rowOne].map((icon, idx) => (
+          <div class="embla-tech__slide">
+            <div class="tech-icon-pill">
+              <span
+                class="tech-icon-svg"
+                set:html={uniqueifySvgIds(icon.svg, `${icon.title}-${idx}`)}
+              />
+              <span class="tech-icon-label">{icon.title}</span>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 
   <!-- Row 2: scrolls right -->
   <div class="embla-tech mt-4" id="embla-row2">
     <div class="embla-tech__container" id="embla-row2-container">
-      {[...rowTwo, ...rowTwo].map((icon, idx) => (
-        <div class="embla-tech__slide">
-          <div class="tech-icon-pill">
-            <span class="tech-icon-svg" set:html={uniqueifySvgIds(icon.svg, `${icon.title}-row2-${idx}`)} />
-            <span class="tech-icon-label">{icon.title}</span>
+      {
+        [...rowTwo, ...rowTwo].map((icon, idx) => (
+          <div class="embla-tech__slide">
+            <div class="tech-icon-pill">
+              <span
+                class="tech-icon-svg"
+                set:html={uniqueifySvgIds(
+                  icon.svg,
+                  `${icon.title}-row2-${idx}`,
+                )}
+              />
+              <span class="tech-icon-label">{icon.title}</span>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      }
     </div>
   </div>
 </section>
@@ -93,7 +119,7 @@ const rowTwo = [
 
   .tech-stack-section::before,
   .tech-stack-section::after {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -111,12 +137,20 @@ const rowTwo = [
 
   .tech-stack-section::before {
     left: 0;
-    background: linear-gradient(to right, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+    background: linear-gradient(
+      to right,
+      var(--color-bg-primary, #0a0a0f) 0%,
+      transparent 100%
+    );
   }
 
   .tech-stack-section::after {
     right: 0;
-    background: linear-gradient(to left, var(--color-bg-primary, #0A0A0F) 0%, transparent 100%);
+    background: linear-gradient(
+      to left,
+      var(--color-bg-primary, #0a0a0f) 0%,
+      transparent 100%
+    );
   }
 
   .embla-tech {
@@ -143,7 +177,9 @@ const rowTwo = [
     border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 9999px;
     background: rgba(255, 255, 255, 0.03);
-    transition: border-color 0.2s ease, background 0.2s ease;
+    transition:
+      border-color 0.2s ease,
+      background 0.2s ease;
     white-space: nowrap;
   }
 
@@ -169,7 +205,7 @@ const rowTwo = [
   .tech-icon-label {
     font-size: 0.8rem;
     font-weight: 500;
-    color: #9CA3AF;
+    color: #9ca3af;
     letter-spacing: 0.02em;
   }
 
@@ -181,30 +217,37 @@ const rowTwo = [
 </style>
 
 <script>
-  import EmblaCarousel from 'embla-carousel';
-  import AutoScroll from 'embla-carousel-auto-scroll';
+  import EmblaCarousel from "embla-carousel";
+  import AutoScroll from "embla-carousel-auto-scroll";
 
   function initTechCarousels() {
-    const row1El = document.getElementById('embla-row1');
-    const row2El = document.getElementById('embla-row2');
+    const row1El = document.getElementById("embla-row1");
+    const row2El = document.getElementById("embla-row2");
 
     if (row1El) {
-      EmblaCarousel(
-        row1El,
-        { loop: true, dragFree: true, watchDrag: false },
-        [AutoScroll({ speed: 1, startDelay: 0, stopOnInteraction: false, stopOnMouseEnter: false })]
-      );
+      EmblaCarousel(row1El, { loop: true, dragFree: true, watchDrag: false }, [
+        AutoScroll({
+          speed: 0.5,
+          startDelay: 0,
+          stopOnInteraction: false,
+          stopOnMouseEnter: false,
+        }),
+      ]);
     }
 
     if (row2El) {
-      EmblaCarousel(
-        row2El,
-        { loop: true, dragFree: true, watchDrag: false },
-        [AutoScroll({ speed: 1, startDelay: 0, direction: 'backward', stopOnInteraction: false, stopOnMouseEnter: false })]
-      );
+      EmblaCarousel(row2El, { loop: true, dragFree: true, watchDrag: false }, [
+        AutoScroll({
+          speed: 0.5,
+          startDelay: 0,
+          direction: "backward",
+          stopOnInteraction: false,
+          stopOnMouseEnter: false,
+        }),
+      ]);
     }
   }
 
   // Support View Transitions
-  document.addEventListener('astro:page-load', initTechCarousels);
+  document.addEventListener("astro:page-load", initTechCarousels);
 </script>
