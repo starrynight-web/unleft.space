@@ -21,6 +21,8 @@ type ContactCardProps = React.ComponentProps<'div'> & {
 	contactInfo?: ContactInfoItem[];
 	formSectionClassName?: string;
 	infoExtra?: React.ReactNode;
+	sideColumnSpan?: number;
+	mainColumnSpan?: number;
 };
 
 export function ContactCard({
@@ -30,6 +32,8 @@ export function ContactCard({
 	className,
 	formSectionClassName,
 	infoExtra,
+	sideColumnSpan = 3,
+	mainColumnSpan = 9,
 	children,
 	...props
 }: ContactCardProps) {
@@ -46,7 +50,7 @@ export function ContactCard({
 			<Plus className="absolute -bottom-3 -left-3 h-6 w-6 text-accent-glow" />
 			<Plus className="absolute -right-3 -bottom-3 h-6 w-6 text-accent-glow" />
 			
-            <div className="flex flex-col justify-between lg:col-span-3">
+            <div className={cn("flex flex-col justify-between", sideColumnSpan === 4 ? "lg:col-span-4" : "lg:col-span-3")}>
 				<div className="relative h-full space-y-6 px-6 py-10 md:p-12 text-left">
 					<h2 className="text-3xl font-bold md:text-4xl lg:text-5xl text-text-primary tracking-tighter">
 						{title}
@@ -64,7 +68,8 @@ export function ContactCard({
 			</div>
 			<div
 				className={cn(
-					'bg-[#1A1A2E]/20 flex h-full w-full items-center border-t border-[#2D2D44] p-6 lg:col-span-9 md:border-t-0 md:border-l',
+					mainColumnSpan === 8 ? 'lg:col-span-8' : 'lg:col-span-9',
+					'bg-[#1A1A2E]/20 flex h-full w-full items-center border-t border-[#2D2D44] p-6 md:border-t-0 md:border-l',
 					formSectionClassName,
 				)}
 			>

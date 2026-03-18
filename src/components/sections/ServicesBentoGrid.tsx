@@ -29,6 +29,18 @@ export default function ServicesBentoGrid({ services }: { services: ServiceItem[
     }
   };
 
+  const toggleReveal = (id: string) => {
+    setRevealedIds((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(id)) {
+        newSet.delete(id);
+      } else {
+        newSet.add(id);
+      }
+      return newSet;
+    });
+  };
+
   const revealAll = () => {
     const allIds = new Set(services.map((s) => s.title));
     setRevealedIds(allIds);
@@ -46,6 +58,7 @@ export default function ServicesBentoGrid({ services }: { services: ServiceItem[
             icon={iconMap[service.title] || <Code2 className="h-6 w-6" />}
             isRevealed={revealedIds.has(service.title)}
             onHover={() => handleHover(service.title)}
+            onClick={() => toggleReveal(service.title)}
             className="lg:col-span-2"
           />
         ))}
@@ -58,6 +71,7 @@ export default function ServicesBentoGrid({ services }: { services: ServiceItem[
             icon={iconMap[service.title] || <Code2 className="h-6 w-6" />}
             isRevealed={revealedIds.has(service.title)}
             onHover={() => handleHover(service.title)}
+            onClick={() => toggleReveal(service.title)}
             className="lg:col-span-3"
           />
         ))}

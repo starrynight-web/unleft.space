@@ -162,7 +162,7 @@ export function SplashScreen() {
           initial={{ opacity: 1 }}
           exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
           transition={{ duration: 1, ease: "easeInOut" }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background overflow-hidden"
+          className="fixed inset-0 z-100 flex flex-col items-center justify-center bg-background overflow-hidden"
         >
           <div
             ref={containerRef}
@@ -175,17 +175,17 @@ export function SplashScreen() {
             initial={{ opacity: 0, y: 10, filter: "blur(4px)" }}
             animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
             transition={{ delay: 0.5, duration: 1 }}
-            className="relative z-10 flex flex-row items-center gap-6"
+            className="relative z-10 flex flex-row items-center gap-3 md:gap-6"
           >
             <img 
               src="/logos/unleft_logo.png" 
               alt="Unleft logo" 
               width={96}
               height={96}
-              className="h-20 md:h-24 w-auto brightness-110 contrast-125 saturate-0 invert" 
+              className="h-12 md:h-24 w-auto brightness-110 contrast-125" 
             />
             <h1 
-              className="text-4xl md:text-7xl font-bold tracking-[0.1em] uppercase text-white whitespace-nowrap"
+              className="text-2xl sm:text-4xl md:text-7xl font-bold tracking-widest uppercase text-white whitespace-nowrap"
               style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
             >
               UNLEFT.LLC

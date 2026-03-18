@@ -45,7 +45,7 @@ const footerLinks: FooterSection[] = [
         href: "https://linkedin.com/company/Unleft",
         icon: Linkedin,
       },
-      { title: "Email", href: "mailto:hello@Unleft.space", icon: Mail },
+      { title: "Email", href: "mailto:hello@unleft.space", icon: Mail },
     ],
   },
 ];
@@ -72,7 +72,7 @@ export default function Footer() {
                 aria-hidden="true"
                 width={24}
                 height={24}
-                className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert"
+                className="h-6 w-auto brightness-110 contrast-125"
               />
               <span
                 style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}

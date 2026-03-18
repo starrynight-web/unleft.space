@@ -18,19 +18,19 @@
     style="background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y), rgba(124, 58, 237, 0.08), transparent 80%);"
   ></div>
 
-  <h1 class="relative z-10 text-[22vw] md:text-[24vw] font-black text-zinc-900 leading-[0.78] -mb-2 tracking-tighter uppercase font-heading transition-colors duration-700 group-hover:text-zinc-800">
+  <p class="relative z-10 text-[22vw] md:text-[24vw] font-black text-zinc-900 leading-[0.78] -mb-2 tracking-tighter uppercase font-heading transition-colors duration-700 group-hover:text-zinc-800" aria-hidden="true">
     UNLEFT
-  </h1>
+  </p>
 
   <script>
     const brandFooter = document.getElementById('fixed-brand');
-    
-    function handleMouseMove(e) {
+
+    function handleMouseMove(e: MouseEvent) {
       if (!brandFooter) return;
       const rect = brandFooter.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
-      
+
       brandFooter.style.setProperty('--mouse-x', `${x}px`);
       brandFooter.style.setProperty('--mouse-y', `${y}px`);
     }

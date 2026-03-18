@@ -7,7 +7,7 @@ import { HoverButton } from "@/components/ui/hover-button";
 
 export default function HeroContent() {
   const headlineWords = ["Engineering", "the", "Future,"];
-  const accentWords = ["Beyond", "Software."];
+  const accentWords = ["Beyond", "Software"];
 
   const container = {
     hidden: { opacity: 0 },
@@ -62,9 +62,9 @@ export default function HeroContent() {
           transition={{ duration: 0.5, delay: 0.8 }}
           className="mb-10 max-w-2xl text-lg leading-relaxed text-[#9CA3AF] md:text-xl"
         >
-          We combine the creativity of a game studio with the precision of
-          enterprise software engineering. Our mission is to empower businesses
-          with the technology of tomorrow.
+          We combine the precision of enterprise software engineering with the
+          creativity of a game studio. Our mission is to empower
+          businesses with the technology of tomorrow.
         </motion.p>
 
         <motion.div

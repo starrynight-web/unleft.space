@@ -1,6 +1,6 @@
 ---
 import "@/styles/global.css";
-import { ViewTransitions } from "astro:transitions";
+import { ClientRouter } from "astro:transitions";
 import CookieBanner from "@/components/layout/CookieBanner";
 import { EtheralShadow } from "@/components/ui/EtheralShadow";
 import { SplashScreen } from "@/components/ui/SplashScreen";
@@ -27,7 +27,7 @@ interface Props {
 const {
   title,
   description = "Engineering the Future. Beyond Software.",
-  image = "/og-image.png",
+  image = "/assets/images/og-image.png",
   noindex = false,
   nofollow = false,
 } = Astro.props;
@@ -98,18 +98,19 @@ const fullTitle = `${title} | Unleft`;
     <!-- Fonts are now self-hosted via @fontsource -->
 
     <!-- Astro View Transitions: persists header, background, and cookie banner across navigations -->
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body>
     <!-- FOUC prevention: Immediately cover screen if no session storage flag -->
     <script>
       if (!sessionStorage.getItem("Unleft-splash-seen")) {
-        document.write(
-          '<div id="splash-blocker" style="position:fixed;inset:0;background-color:hsl(var(--background));z-index:99;"></div>',
-        );
+        const blocker = document.createElement("div");
+        blocker.id = "splash-blocker";
+        blocker.style.cssText = "position:fixed;inset:0;background-color:#050507;z-index:99;";
+        document.body.insertBefore(blocker, document.body.firstChild);
         window.addEventListener("load", () => {
-          const blocker = document.getElementById("splash-blocker");
-          if (blocker) blocker.style.display = "none";
+          const el = document.getElementById("splash-blocker");
+          if (el) el.style.display = "none";
         });
       }
     </script>

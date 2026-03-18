@@ -4,29 +4,26 @@ import { HoverButton } from '@/components/ui/hover-button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Check, ArrowRight } from 'lucide-react';
+import { availablePlans } from '@/lib/plans';
 
-const tiers = [
+type Tier = typeof availablePlans[0] & {
+  cta: string;
+  highlighted: boolean;
+};
+
+const tiers: Tier[] = [
   {
-    name: 'Starter',
-    price: '৳15,000',
-    description: 'Perfect for small businesses needing a professional web presence.',
-    features: ['Up to 5 pages', 'Responsive design', 'Basic SEO optimization', 'Contact form', '1 month support'],
+    ...availablePlans[0],
     cta: 'Get Started',
     highlighted: false,
   },
   {
-    name: 'Growth',
-    price: '৳50,000',
-    description: 'For SMEs needing advanced features and performance optimization.',
-    features: ['Up to 15 pages', 'Custom design system', 'CMS integration', 'Performance optimization', 'Analytics setup', '3 months support'],
+    ...availablePlans[1],
     cta: 'Get Started',
     highlighted: true,
   },
   {
-    name: 'Enterprise',
-    price: '৳1,00,000+',
-    description: 'Full-scale custom systems with scalable backend and DevOps.',
-    features: ['Unlimited pages', 'Custom backend', 'Database design', 'CI/CD pipeline', 'Security audit', '6 months support'],
+    ...availablePlans[2],
     cta: 'Contact Us',
     highlighted: false,
   },
@@ -50,11 +47,7 @@ const tiers = [
   <section class="max-w-7xl mx-auto px-6 pb-24">
     <div class="grid md:grid-cols-3 gap-8 items-stretch">
       {tiers.map((tier) => (
-        <Card className={`border-[#2D2D44] bg-[#1A1A2E]/50 flex flex-col relative overflow-hidden transition-all duration-500 hover:shadow-2xl ${tier.highlighted ? 'border-accent-primary shadow-[0_0_40px_rgba(124,58,237,0.1)] scale-[1.02] z-10' : 'hover:border-accent-glow/30 hover:-translate-y-1'}`}>
-          {tier.highlighted && (
-            <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-[#7B2CBF] to-[#9D4EDD] shadow-[0_0_20px_rgba(124,58,237,0.5)]"></div>
-          )}
-          
+        <Card className={`border-[#2D2D44] bg-[#1A1A2E]/50 flex flex-col relative overflow-hidden transition-all duration-500 hover:shadow-2xl ${tier.highlighted ? 'border-accent-primary shadow-[0_0_40px_rgba(124,58,237,0.1)] scale-[1.02] z-10' : 'hover:border-accent-glow/30 hover:-translate-y-1'}`}>          
           <CardHeader className="pb-4 relative">
             {tier.highlighted && (
                 <Badge className="w-fit mb-4 bg-accent-primary/20 text-accent-glow border-none animate-pulse">Most Popular</Badge>
@@ -97,7 +90,7 @@ const tiers = [
       ))}
     </div>
 
-    <div class="mt-24 text-center p-12 rounded-3xl border border-[#2D2D44]/30 bg-gradient-to-b from-transparent to-[#1A1A2E]/20">
+    <div class="mt-24 text-center p-12 rounded-3xl border border-[#2D2D44]/30 bg-linear-to-b from-transparent to-[#1A1A2E]/20">
       <p class="text-text-secondary mb-8 max-w-xl mx-auto text-lg leading-relaxed">
         Need a custom quote for complex <span class="text-text-primary font-medium">game development</span>, <span class="text-text-primary font-medium">AI systems</span>, or large-scale <span class="text-text-primary font-medium">custom software</span>?
       </p>

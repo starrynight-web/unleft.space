@@ -19,43 +19,33 @@ import { Badge } from '@/components/ui/badge';
     <div class="relative max-w-4xl mx-auto">
       <div class="absolute -inset-4 bg-accent-primary/5 rounded-3xl blur-3xl opacity-50"></div>
       <div class="relative rounded-2xl border border-[#2D2D44] bg-[#0A0A0F]/60 p-8 md:p-12 backdrop-blur-sm shadow-2xl">
-        <div class="prose prose-invert prose-h2:font-gupter prose-h3:font-heading prose-headings:text-text-primary prose-p:text-text-secondary prose-li:text-text-secondary prose-a:text-accent-glow max-w-none prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-6">
-          <h2>1. What Are Cookies</h2>
-          <p>Cookies are small text files stored on your device when you visit a website. They help us provide a better browsing experience.</p>
-      
-          <h2>2. Cookies We Use</h2>
-          <div class="overflow-x-auto my-8 border border-[#2D2D44] rounded-xl overflow-hidden">
-            <table class="w-full text-left border-collapse">
-              <thead class="bg-[#1A1A2E]/50">
-                <tr>
-                  <th class="p-4 border-b border-[#2D2D44]">Type</th>
-                  <th class="p-4 border-b border-[#2D2D44]">Purpose</th>
-                  <th class="p-4 border-b border-[#2D2D44]">Duration</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr class="border-b border-[#2D2D44]/50">
-                  <td class="p-4">Essential</td>
-                  <td class="p-4">Cookie consent preference</td>
-                  <td class="p-4">1 year</td>
-                </tr>
-                <tr>
-                  <td class="p-4">Analytics</td>
-                  <td class="p-4">Traffic analysis (Vercel Analytics)</td>
-                  <td class="p-4">Session</td>
-                </tr>
-              </tbody>
-            </table>
+        <div class="flex flex-col gap-12 md:gap-16 text-text-secondary leading-relaxed">
+          <div class="flex flex-col gap-4">
+            <h2 class="font-gupter text-2xl md:text-3xl text-text-primary tracking-wide">1. What Are Cookies</h2>
+            <div class="bg-accent-primary/20 h-px w-12 rounded-full mb-2"></div>
+            <p class="text-base/loose">Cookies are small text files stored on your device when you visit a website. They help us provide a better browsing experience.</p>
           </div>
       
-          <h2>3. Managing Cookies</h2>
-          <p>You can manage your cookie preferences through the cookie banner on first visit. You can also clear cookies through your browser settings at any time.</p>
+          <div class="flex flex-col gap-4">
+            <h2 class="font-gupter text-2xl md:text-3xl text-text-primary tracking-wide">2. What cookies we use</h2>
+            <div class="bg-accent-primary/20 h-px w-12 rounded-full mb-2"></div>
+            <ul class="flex flex-col gap-5 list-disc pl-5 marker:text-accent-primary/60 text-base/loose">
+              <li><strong class="text-text-primary font-medium">Essential cookies</strong>: FormSubmit.co may set a functional cookie for spam protection. These are necessary for the contact form to work and do not track your browsing.</li>
+              <li><strong class="text-text-primary font-medium">Analytics cookies</strong>: We use Google Analytics to understand website usage. These cookies collect anonymous data about page views and interactions. You can opt out via <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener" class="text-accent-glow hover:text-accent-primary transition-colors underline underline-offset-4 decoration-accent-primary/30">Google's Opt-out Browser Add-on</a>.</li>
+            </ul>
+          </div>
       
-          <h2>4. Third-Party Cookies</h2>
-          <p>We may use Google reCAPTCHA for spam protection, which sets its own cookies. These are governed by <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.</p>
+          <div class="flex flex-col gap-4">
+            <h2 class="font-gupter text-2xl md:text-3xl text-text-primary tracking-wide">3. Managing cookies</h2>
+            <div class="bg-accent-primary/20 h-px w-12 rounded-full mb-2"></div>
+            <p class="text-base/loose">You can control cookies through your browser settings. Disabling essential cookies may break form functionality.</p>
+          </div>
       
-          <h2>5. Contact</h2>
-          <p>For questions about our cookie practices, contact <a href="mailto:hello@Unleft.space">hello@Unleft.space</a>.</p>
+          <div class="flex flex-col gap-4">
+            <h2 class="font-gupter text-2xl md:text-3xl text-text-primary tracking-wide">4. Contact</h2>
+            <div class="bg-accent-primary/20 h-px w-12 rounded-full mb-2"></div>
+            <p class="text-base/loose">For questions about our cookie practices, contact <a href="mailto:hello@unleft.space" class="text-accent-glow hover:text-accent-primary transition-colors underline underline-offset-4 decoration-accent-primary/30">hello@unleft.space</a>.</p>
+          </div>
         </div>
       </div>
     </div>

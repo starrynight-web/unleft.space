@@ -54,7 +54,7 @@ function UnleftLogo() {
     <a
       href="/"
       aria-label="UNLEFT.LLC — home"
-      className="flex items-center gap-1.5 flex-shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+      className="flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
     >
       <img
         src="/logos/unleft_logo.png"
@@ -62,7 +62,7 @@ function UnleftLogo() {
         aria-hidden="true"
         width={24}
         height={24}
-        className="h-6 w-auto brightness-110 contrast-125 saturate-0 invert"
+        className="h-6 w-auto brightness-110 contrast-125"
       />
       <span
         style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
@@ -71,7 +71,7 @@ function UnleftLogo() {
         UNLEFT.LLC
       </span>
       <span
-        className="size-1.5 rounded-full bg-primary flex-shrink-0 mb-0.5"
+        className="size-1.5 rounded-full bg-primary shrink-0 mb-0.5"
         aria-hidden="true"
       />
     </a>
@@ -85,7 +85,7 @@ function ContactCTA({ compact = false }: { compact?: boolean }) {
     <HoverButton
       onClick={() => (window.location.href = "/contact")}
       className={cn(
-        "rounded-full flex-shrink-0",
+        "rounded-full shrink-0",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
         compact ? "px-3 py-1 text-xs" : "px-4 py-1.5 text-sm",
       )}
@@ -98,13 +98,12 @@ function ContactCTA({ compact = false }: { compact?: boolean }) {
 // ─── Desktop nav — ExpandableTabs ────────────────────────────────────────────
 
 function DesktopNav({ compact = false }: { compact?: boolean }) {
-  const [activeIndex, setActiveIndex] = React.useState<number | null>(
-    getActiveIndex,
-  );
+  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
   // Update active tab when Astro View Transitions navigates to a new page
   React.useEffect(() => {
     const onNav = () => setActiveIndex(getActiveIndex());
+    onNav();
     document.addEventListener("astro:page-load", onNav);
     return () => document.removeEventListener("astro:page-load", onNav);
   }, []);

@@ -8,7 +8,19 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   site: "https://unleft.space",
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    sitemap({
+      filter: (page) => {
+        try {
+          const { pathname } = new URL(page);
+          return pathname !== "/checkout" && pathname !== "/checkout/";
+        } catch {
+          return !/\/checkout\/?$/.test(page);
+        }
+      },
+    }),
+  ],
 
   vite: {
     plugins: [tailwindcss()],

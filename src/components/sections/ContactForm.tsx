@@ -38,16 +38,25 @@ const budgets = [
   "$5,000+",
   "Not sure",
 ];
+const FORMSUBMIT_AJAX_ENDPOINT = "https://formsubmit.co/ajax/support@unleft.space";
 
 interface ContactFormProps {
   /** When true, shows service interest and budget range fields */
   showCustomFields?: boolean;
+  /** Initial value for service interest (e.g., a selected plan) */
+  defaultService?: string;
 }
 
-export default function ContactForm({ showCustomFields: showCustomFieldsProp }: ContactFormProps) {
+export default function ContactForm({ 
+  showCustomFields: showCustomFieldsProp,
+  defaultService 
+}: ContactFormProps) {
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
+  const [errorMessage, setErrorMessage] = useState(
+    "Something went wrong. Please try again or email us directly.",
+  );
 
   // Also detect ?mode=custom from URL
   const [showCustomFields, setShowCustomFields] = useState(showCustomFieldsProp ?? false);
@@ -64,24 +73,53 @@ export default function ContactForm({ showCustomFields: showCustomFieldsProp }: 
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    defaultValues: {
+      serviceInterest: defaultService,
+    },
   });
+
+  // Update serviceInterest if defaultService prop changes (e.g., plan switch in checkout)
+  useEffect(() => {
+    if (defaultService) {
+      setValue("serviceInterest", defaultService);
+    }
+  }, [defaultService, setValue]);
 
   const onSubmit = async (data: ContactFormData) => {
     if (data.honeypot) return;
+    setErrorMessage("Something went wrong. Please try again or email us directly.");
     setStatus("submitting");
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch(FORMSUBMIT_AJAX_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          company: data.company ?? "",
+          serviceInterest: data.serviceInterest ?? "",
+          budgetRange: data.budgetRange ?? "",
+          message: data.message,
+          _subject: "New Inquiry from Unleft.llc",
+          _captcha: "true",
+          _honey: data.honeypot ?? "",
+        }),
       });
-      if (res.ok) {
+      const result = (await res.json().catch(() => null)) as
+        | { success?: string; message?: string }
+        | null;
+      if (res.ok && result?.success !== "false") {
         setStatus("success");
         reset();
       } else {
+        if (result?.message) setErrorMessage(result.message);
         setStatus("error");
       }
     } catch {
@@ -120,6 +158,12 @@ export default function ContactForm({ showCustomFields: showCustomFieldsProp }: 
       {/* Honeypot */}
       <div className="hidden" aria-hidden="true">
         <input {...register("honeypot")} tabIndex={-1} autoComplete="off" />
+        {!showCustomFields && (
+          <>
+            <input type="hidden" {...register("serviceInterest")} />
+            <input type="hidden" {...register("budgetRange")} />
+          </>
+        )}
       </div>
 
       <div className="grid sm:grid-cols-2 gap-6">
@@ -198,7 +242,7 @@ export default function ContactForm({ showCustomFields: showCustomFieldsProp }: 
       {status === "error" && (
         <div className="flex items-center gap-2 rounded-lg bg-red-500/10 border border-red-500/20 px-4 py-3 text-sm text-red-400">
           <AlertCircle className="h-4 w-4 flex-shrink-0" />
-          Something went wrong. Please try again or email us directly.
+          {errorMessage}
         </div>
       )}
 

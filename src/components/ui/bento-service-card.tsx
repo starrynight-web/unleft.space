@@ -14,6 +14,7 @@ interface BentoServiceCardProps {
   color: string;
   isRevealed: boolean;
   onHover: () => void;
+  onClick?: () => void;
   className?: string;
   image?: string;
   links?: {
@@ -31,6 +32,7 @@ export default function BentoServiceCard({
   color,
   isRevealed,
   onHover,
+  onClick,
   className,
   image,
   links,
@@ -39,10 +41,21 @@ export default function BentoServiceCard({
 
   return (
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-expanded={isRevealed}
       onMouseEnter={onHover}
+      onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
       className={cn(
         "group relative flex flex-col justify-between overflow-hidden border-[#2D2D44] bg-[#0A0A0F]/70 transition-all duration-500",
-        "border-[0.5px] hover:z-10",
+        "border-[0.5px] hover:z-10 cursor-pointer",
+        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C084FC]/60 focus-visible:z-10",
         isRevealed ? "bg-[#0D0D14]" : "hover:bg-[#0D0D14]",
         className
       )}
@@ -57,15 +70,15 @@ export default function BentoServiceCard({
             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
           <div
-            className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-[#0A0A0F]/80 to-transparent"
+            className="absolute inset-0 bg-linear-to-t from-[#0A0A0F] via-[#0A0A0F]/80 to-transparent"
             style={{ backgroundColor: `${color}10` }}
           />
         </div>
       )}
 
       {/* Deterministic Grid Pattern (from Grid Feature Cards) */}
-      <div className="pointer-events-none absolute inset-0 [mask-image:linear-gradient(white,transparent)]">
-        <div className="absolute inset-0 bg-gradient-to-r from-foreground/5 to-foreground/1 [mask-image:radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
+      <div className="pointer-events-none absolute inset-0 mask-[linear-gradient(white,transparent)]">
+        <div className="absolute inset-0 bg-linear-to-r from-foreground/5 to-foreground/1 mask-[radial-gradient(farthest-side_at_top,white,transparent)] opacity-100">
           <GridPattern
             width={20}
             height={20}
@@ -88,7 +101,7 @@ export default function BentoServiceCard({
         <div className="flex items-start justify-between">
           <div className="flex flex-col gap-4">
             <div
-              className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2D2D44] transition-all duration-500 group-hover:scale-110 group-hover:border-[var(--primary)]/40"
+              className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#2D2D44] transition-all duration-500 group-hover:scale-110 group-hover:border-(--primary)/40"
               style={{ backgroundColor: `${color}15`, color }}
             >
               {icon}
