@@ -7,9 +7,58 @@ import ExpertiseSection from '@/components/sections/ExpertiseSection.astro';
 import GlobeWrapper from '@/components/sections/GlobeWrapper.astro';
 import TechStack from '@/components/sections/TechStack.astro';
 import TestimonialsCarousel from '@/components/sections/TestimonialsCarousel.astro';
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://www.unleft.space/#organization",
+      name: "Unleft",
+      url: "https://www.unleft.space/",
+      logo: "https://www.unleft.space/logos/unleft_logo.png",
+      description:
+        "Performance-driven software company building high-performance websites, custom software, AI systems, mobile apps, and cross-platform games.",
+      email: "hello@unleft.space",
+      sameAs: [
+        "https://github.com/UNLEFT",
+        "https://linkedin.com/company/unleft",
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: "Dhaka",
+        addressCountry: "BD",
+      },
+      contactPoint: [
+        {
+          "@type": "ContactPoint",
+          contactType: "sales",
+          email: "hello@unleft.space",
+          availableLanguage: "English",
+        },
+      ],
+      areaServed: "Worldwide",
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.unleft.space/#website",
+      url: "https://www.unleft.space/",
+      name: "Unleft",
+      publisher: {
+        "@id": "https://www.unleft.space/#organization",
+      },
+    },
+  ],
+};
 ---
 
-<PageLayout title="Home" description="Engineering the Future. We build scalable digital systems, high-performance websites, and cross-platform games.">
+<PageLayout
+  title="Home"
+  description="Unleft builds high-performance websites, custom software, AI systems, mobile apps, and cross-platform games for ambitious teams."
+  keywords="custom software development, web development agency, AI development company, mobile app development, game development studio, software company Bangladesh"
+  imageAlt="Unleft homepage preview for a software, AI, mobile, and game development studio"
+  structuredData={structuredData}
+>
   <!-- Hero + Globe + Core Services share a unified visual block -->
   <div class="relative overflow-hidden">
     <HeroSection />

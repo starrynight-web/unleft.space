@@ -7,7 +7,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://unleft.space",
+  site: "https://www.unleft.space",
   integrations: [
     react(),
     sitemap({

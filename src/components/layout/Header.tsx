@@ -53,25 +53,24 @@ function UnleftLogo() {
   return (
     <a
       href="/"
-      aria-label="UNLEFT.LLC — home"
-      className="flex items-center gap-1.5 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
+      aria-label="UNLEFT — home"
+      className="flex items-center gap-2 shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
     >
       <img
         src="/logos/unleft_logo.png"
         alt=""
         aria-hidden="true"
-        width={24}
-        height={24}
-        className="h-6 w-auto brightness-110 contrast-125"
+        height={36}
+        className="h-12 w-auto brightness-110 contrast-125"
       />
       <span
         style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
-        className="text-sm font-normal tracking-widest text-foreground leading-none select-none"
+        className="text-base font-normal tracking-widest text-foreground leading-none select-none"
       >
-        UNLEFT.LLC
+        UNLEFT
       </span>
       <span
-        className="size-1.5 rounded-full bg-primary shrink-0 mb-0.5"
+        className="size-2 rounded-full bg-primary shrink-0 mb-0.5"
         aria-hidden="true"
       />
     </a>

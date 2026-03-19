@@ -8,15 +8,45 @@ import { EtheralShadow } from '@/components/ui/EtheralShadow';
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
   image?: string;
+  imageAlt?: string;
+  ogType?: "website" | "article";
+  locale?: string;
+  lang?: string;
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
   nofollow?: boolean;
 }
 
-const { title, description, image, noindex, nofollow } = Astro.props;
+const {
+  title,
+  description,
+  keywords,
+  image,
+  imageAlt,
+  ogType,
+  locale,
+  lang,
+  structuredData,
+  noindex,
+  nofollow,
+} = Astro.props;
 ---
 
-<BaseLayout title={title} description={description} image={image} noindex={noindex} nofollow={nofollow}>
+<BaseLayout
+  title={title}
+  description={description}
+  keywords={keywords}
+  image={image}
+  imageAlt={imageAlt}
+  ogType={ogType}
+  locale={locale}
+  lang={lang}
+  structuredData={structuredData}
+  noindex={noindex}
+  nofollow={nofollow}
+>
   <Header client:load transition:persist="site-header" />
   
   <div 

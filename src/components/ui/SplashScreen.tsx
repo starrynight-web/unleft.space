@@ -177,18 +177,17 @@ export function SplashScreen() {
             transition={{ delay: 0.5, duration: 1 }}
             className="relative z-10 flex flex-row items-center gap-3 md:gap-6"
           >
-            <img 
-              src="/logos/unleft_logo.png" 
-              alt="Unleft logo" 
-              width={96}
-              height={96}
-              className="h-12 md:h-24 w-auto brightness-110 contrast-125" 
+            <img
+              src="/logos/unleft_logo.png"
+              alt="Unleft logo"
+              height={160}
+              className="h-20 md:h-24 w-auto brightness-110 contrast-125"
             />
-            <h1 
+            <h1
               className="text-2xl sm:text-4xl md:text-7xl font-bold tracking-widest uppercase text-white whitespace-nowrap"
               style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
             >
-              UNLEFT.LLC
+              UNLEFT
             </h1>
           </motion.div>
         </motion.div>

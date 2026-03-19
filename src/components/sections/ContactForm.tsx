@@ -38,7 +38,8 @@ const budgets = [
   "$5,000+",
   "Not sure",
 ];
-const FORMSUBMIT_AJAX_ENDPOINT = "https://formsubmit.co/ajax/support@unleft.space";
+const FORMSUBMIT_AJAX_ENDPOINT =
+  "https://formsubmit.co/ajax/support@unleft.space";
 
 interface ContactFormProps {
   /** When true, shows service interest and budget range fields */
@@ -47,9 +48,9 @@ interface ContactFormProps {
   defaultService?: string;
 }
 
-export default function ContactForm({ 
+export default function ContactForm({
   showCustomFields: showCustomFieldsProp,
-  defaultService 
+  defaultService,
 }: ContactFormProps) {
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
@@ -59,7 +60,9 @@ export default function ContactForm({
   );
 
   // Also detect ?mode=custom from URL
-  const [showCustomFields, setShowCustomFields] = useState(showCustomFieldsProp ?? false);
+  const [showCustomFields, setShowCustomFields] = useState(
+    showCustomFieldsProp ?? false,
+  );
 
   useEffect(() => {
     if (showCustomFieldsProp !== undefined) return;
@@ -91,7 +94,9 @@ export default function ContactForm({
 
   const onSubmit = async (data: ContactFormData) => {
     if (data.honeypot) return;
-    setErrorMessage("Something went wrong. Please try again or email us directly.");
+    setErrorMessage(
+      "Something went wrong. Please try again or email us directly.",
+    );
     setStatus("submitting");
     try {
       const res = await fetch(FORMSUBMIT_AJAX_ENDPOINT, {
@@ -107,14 +112,15 @@ export default function ContactForm({
           serviceInterest: data.serviceInterest ?? "",
           budgetRange: data.budgetRange ?? "",
           message: data.message,
-          _subject: "New Inquiry from Unleft.llc",
+          _subject: "New Inquiry from UNLEFT",
           _captcha: "true",
           _honey: data.honeypot ?? "",
         }),
       });
-      const result = (await res.json().catch(() => null)) as
-        | { success?: string; message?: string }
-        | null;
+      const result = (await res.json().catch(() => null)) as {
+        success?: string;
+        message?: string;
+      } | null;
       if (res.ok && result?.success !== "false") {
         setStatus("success");
         reset();
@@ -168,7 +174,9 @@ export default function ContactForm({
 
       <div className="grid sm:grid-cols-2 gap-6">
         <div>
-          <label htmlFor="name" className={labelClasses}>Name *</label>
+          <label htmlFor="name" className={labelClasses}>
+            Name *
+          </label>
           <input
             {...register("name")}
             id="name"
@@ -178,7 +186,9 @@ export default function ContactForm({
           {errors.name && <p className={errorClasses}>{errors.name.message}</p>}
         </div>
         <div>
-          <label htmlFor="email" className={labelClasses}>Email *</label>
+          <label htmlFor="email" className={labelClasses}>
+            Email *
+          </label>
           <input
             {...register("email")}
             id="email"
@@ -193,7 +203,9 @@ export default function ContactForm({
       </div>
 
       <div>
-        <label htmlFor="company" className={labelClasses}>Company</label>
+        <label htmlFor="company" className={labelClasses}>
+          Company
+        </label>
         <input
           {...register("company")}
           id="company"
@@ -206,20 +218,36 @@ export default function ContactForm({
       {showCustomFields && (
         <div className="grid sm:grid-cols-2 gap-6 animate-in fade-in slide-in-from-top-2 duration-300">
           <div>
-            <label htmlFor="serviceInterest" className={labelClasses}>Service Interest</label>
-            <select {...register("serviceInterest")} id="serviceInterest" className={inputClasses}>
+            <label htmlFor="serviceInterest" className={labelClasses}>
+              Service Interest
+            </label>
+            <select
+              {...register("serviceInterest")}
+              id="serviceInterest"
+              className={inputClasses}
+            >
               <option value="">Select a service...</option>
               {services.map((s) => (
-                <option key={s} value={s}>{s}</option>
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
           </div>
           <div>
-            <label htmlFor="budgetRange" className={labelClasses}>Budget Range</label>
-            <select {...register("budgetRange")} id="budgetRange" className={inputClasses}>
+            <label htmlFor="budgetRange" className={labelClasses}>
+              Budget Range
+            </label>
+            <select
+              {...register("budgetRange")}
+              id="budgetRange"
+              className={inputClasses}
+            >
               <option value="">Select budget (optional)</option>
               {budgets.map((b) => (
-                <option key={b} value={b}>{b}</option>
+                <option key={b} value={b}>
+                  {b}
+                </option>
               ))}
             </select>
           </div>
@@ -227,7 +255,9 @@ export default function ContactForm({
       )}
 
       <div>
-        <label htmlFor="message" className={labelClasses}>Message *</label>
+        <label htmlFor="message" className={labelClasses}>
+          Message *
+        </label>
         <textarea
           {...register("message")}
           id="message"
@@ -262,7 +292,10 @@ export default function ContactForm({
 
       <p className="text-xs text-center text-[#9CA3AF]">
         We reply within 24 hours. Your data is protected per our{" "}
-        <a href="/legal/privacy" className="text-[#D8A8FF] underline hover:text-white transition-colors">
+        <a
+          href="/legal/privacy"
+          className="text-[#D8A8FF] underline hover:text-white transition-colors"
+        >
           Privacy Policy
         </a>
         .

@@ -39,10 +39,10 @@ const footerLinks: FooterSection[] = [
   {
     label: "Social",
     links: [
-      { title: "GitHub", href: "https://github.com/Unleft", icon: Github },
+      { title: "GitHub", href: "https://github.com/UNLEFT", icon: Github },
       {
         title: "LinkedIn",
-        href: "https://linkedin.com/company/Unleft",
+        href: "https://www.linkedin.com/company/unleft/",
         icon: Linkedin,
       },
       { title: "Email", href: "mailto:hello@unleft.space", icon: Mail },
@@ -65,20 +65,19 @@ export default function Footer() {
             className="group flex flex-col gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm w-fit"
             aria-label="Unleft — home"
           >
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <img
                 src="/logos/unleft_logo.png"
                 alt=""
                 aria-hidden="true"
-                width={24}
-                height={24}
-                className="h-6 w-auto brightness-110 contrast-125"
+                height={44}
+                className="h-12 w-auto brightness-110 contrast-125"
               />
               <span
                 style={{ fontFamily: "'Bruno Ace SC', sans-serif" }}
-                className="text-lg font-normal tracking-widest text-[#E5E7EB] leading-none select-none transition-colors group-hover:text-primary"
+                className="text-xl font-normal tracking-widest text-[#E5E7EB] leading-none select-none transition-colors group-hover:text-primary"
               >
-                UNLEFT.LLC
+                UNLEFT
               </span>
             </div>
             <p className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">
@@ -128,7 +127,6 @@ export default function Footer() {
           </AnimatedContainer>
         ))}
       </div>
-
     </footer>
   );
 }

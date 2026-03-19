@@ -5,4 +5,4 @@ Allow: /
 Disallow: /checkout
 
 # Sitemap location
-Sitemap: https://unleft.space/sitemap-index.xml
+Sitemap: https://www.unleft.space/sitemap-index.xml

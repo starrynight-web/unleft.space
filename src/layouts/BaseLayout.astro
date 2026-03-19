@@ -16,30 +16,139 @@ import "@fontsource/jetbrains-mono/400.css";
 
 import { SEO } from "astro-seo";
 
+type StructuredData =
+  | Record<string, unknown>
+  | Array<Record<string, unknown>>;
+
 interface Props {
   title: string;
   description?: string;
+  keywords?: string;
   image?: string;
+  imageAlt?: string;
+  ogType?: "website" | "article";
+  locale?: string;
+  lang?: string;
+  structuredData?: StructuredData;
   noindex?: boolean;
   nofollow?: boolean;
 }
 
+const BRAND_TITLE = "UNLEFT-Engineering The Future, Beyond Software.";
+const DEFAULT_DESCRIPTION = "Engineering the Future. Beyond Software.";
+const DEFAULT_IMAGE = "/assets/images/og-image.png";
+const DEFAULT_IMAGE_ALT = "Unleft website preview";
+
 const {
   title,
-  description = "Engineering the Future. Beyond Software.",
-  image = "/assets/images/og-image.png",
+  description = DEFAULT_DESCRIPTION,
+  keywords,
+  image = DEFAULT_IMAGE,
+  imageAlt = DEFAULT_IMAGE_ALT,
+  ogType = "website",
+  locale = "en_US",
+  lang = "en",
+  structuredData,
   noindex = false,
   nofollow = false,
 } = Astro.props;
 
-const siteBase = Astro.site ?? new URL("https://unleft.space");
+const siteBase = Astro.site ?? new URL("https://www.unleft.space");
 const canonicalURL = new URL(Astro.url.pathname, siteBase).toString();
 const ogImageURL = new URL(image, siteBase).toString();
-const fullTitle = `${title} | Unleft`;
+
+const fullTitle =
+  Astro.url.pathname === "/" || title === "Home"
+    ? BRAND_TITLE
+    : title.includes(BRAND_TITLE)
+      ? title
+      : `${title} | ${BRAND_TITLE}`;
+
+const breadcrumbLabelMap: Record<string, string> = {
+  about: "About Us",
+  contact: "Contact",
+  cookies: "Cookie Policy",
+  checkout: "Checkout",
+  legal: "Legal",
+  pricing: "Pricing",
+  privacy: "Privacy Policy",
+  projects: "Projects",
+  services: "Services",
+  tech: "Tech Stack",
+  terms: "Terms & Conditions",
+};
+
+function titleizeSegment(segment: string) {
+  return segment
+    .split("-")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function buildBreadcrumbStructuredData(pathname: string) {
+  if (noindex || pathname === "/") return null;
+
+  const trimmedPath = pathname.replace(/^\/+|\/+$/g, "");
+  if (!trimmedPath) return null;
+
+  const segments = trimmedPath.split("/");
+  let currentPath = "/";
+
+  const itemListElement = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: new URL("/", siteBase).toString(),
+    },
+  ];
+
+  for (const [index, segment] of segments.entries()) {
+    currentPath += `${segment}/`;
+
+    const isLast = index === segments.length - 1;
+    const name = isLast
+      ? title
+      : (breadcrumbLabelMap[segment] ?? titleizeSegment(segment));
+
+    itemListElement.push({
+      "@type": "ListItem",
+      position: index + 2,
+      name,
+      item: new URL(currentPath, siteBase).toString(),
+    });
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement,
+  };
+}
+
+const breadcrumbStructuredData = buildBreadcrumbStructuredData(Astro.url.pathname);
+const headStructuredData = [
+  ...(structuredData
+    ? Array.isArray(structuredData)
+      ? structuredData
+      : [structuredData]
+    : []),
+  ...(breadcrumbStructuredData ? [breadcrumbStructuredData] : []),
+];
+
+const extendedMeta = [
+  ...(keywords ? [{ name: "keywords", content: keywords }] : []),
+  ...(imageAlt
+    ? [
+        { property: "og:image:alt", content: imageAlt },
+        { name: "twitter:image:alt", content: imageAlt },
+      ]
+    : []),
+];
 ---
 
 <!doctype html>
-<html lang="en" class="dark scroll-smooth">
+<html lang={lang} class="dark scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -69,13 +178,13 @@ const fullTitle = `${title} | Unleft`;
       openGraph={{
         basic: {
           title: fullTitle,
-          type: "website",
+          type: ogType,
           image: ogImageURL,
           url: canonicalURL,
         },
         optional: {
           siteName: "Unleft",
-          locale: "en_US",
+          locale: locale,
           description: description,
         },
       }}
@@ -88,12 +197,17 @@ const fullTitle = `${title} | Unleft`;
         image: ogImageURL,
       }}
       extend={{
-        meta: [
-          { name: "theme-color", content: "#7C3AED" },
-          { name: "viewport", content: "width=device-width, initial-scale=1" },
-        ],
+        meta: extendedMeta,
       }}
     />
+    {
+      headStructuredData.map((schema) => (
+        <script
+          type="application/ld+json"
+          set:html={JSON.stringify(schema)}
+        />
+      ))
+    }
 
     <!-- Fonts are now self-hosted via @fontsource -->
 
