@@ -17,6 +17,7 @@ interface Props {
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
   nofollow?: boolean;
+  showSplash?: boolean;
 }
 
 const {
@@ -31,6 +32,7 @@ const {
   structuredData,
   noindex,
   nofollow,
+  showSplash = false,
 } = Astro.props;
 ---
 
@@ -46,6 +48,7 @@ const {
   structuredData={structuredData}
   noindex={noindex}
   nofollow={nofollow}
+  showSplash={showSplash}
 >
   <Header client:load transition:persist="site-header" />
   

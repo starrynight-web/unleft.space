@@ -32,6 +32,7 @@ interface Props {
   structuredData?: StructuredData;
   noindex?: boolean;
   nofollow?: boolean;
+  showSplash?: boolean;
 }
 
 const BRAND_TITLE = "UNLEFT-Engineering The Future, Beyond Software.";
@@ -51,6 +52,7 @@ const {
   structuredData,
   noindex = false,
   nofollow = false,
+  showSplash = false,
 } = Astro.props;
 
 const siteBase = Astro.site ?? new URL("https://www.unleft.space");
@@ -215,20 +217,27 @@ const extendedMeta = [
     <ClientRouter />
   </head>
   <body>
-    <!-- FOUC prevention: Immediately cover screen if no session storage flag -->
-    <script>
-      if (!sessionStorage.getItem("Unleft-splash-seen")) {
-        const blocker = document.createElement("div");
-        blocker.id = "splash-blocker";
-        blocker.style.cssText = "position:fixed;inset:0;background-color:#050507;z-index:99;";
-        document.body.insertBefore(blocker, document.body.firstChild);
-        window.addEventListener("load", () => {
-          const el = document.getElementById("splash-blocker");
-          if (el) el.style.display = "none";
-        });
-      }
-    </script>
-    <SplashScreen client:load transition:persist="splash" />
+    {
+      showSplash && (
+        <>
+          <!-- FOUC prevention: Immediately cover screen if no session storage flag -->
+          <script>
+            if (!sessionStorage.getItem("Unleft-splash-seen")) {
+              const blocker = document.createElement("div");
+              blocker.id = "splash-blocker";
+              blocker.style.cssText =
+                "position:fixed;inset:0;background-color:#050507;z-index:99;";
+              document.body.insertBefore(blocker, document.body.firstChild);
+              window.addEventListener("load", () => {
+                const el = document.getElementById("splash-blocker");
+                if (el) el.style.display = "none";
+              });
+            }
+          </script>
+          <SplashScreen client:load />
+        </>
+      )
+    }
     <EtheralShadow client:idle transition:persist="etheral-shadow" />
     <slot />
     <CookieBanner client:idle transition:persist="cookie-banner" />

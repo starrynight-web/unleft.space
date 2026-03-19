@@ -14,13 +14,24 @@ export function SplashScreen() {
     animationId: number;
   } | null>(null);
 
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === "undefined") return true;
+    return !sessionStorage.getItem("Unleft-splash-seen");
+  });
 
   useEffect(() => {
+    const removeBlocker = () => {
+      document.getElementById("splash-blocker")?.remove();
+    };
+
+    // Once the splash island has mounted, the fallback blocker is no longer needed.
+    removeBlocker();
+
     // Check if splash has already been shown in this session
     const hasSeenSplash = sessionStorage.getItem("Unleft-splash-seen");
     if (hasSeenSplash) {
       setIsVisible(false);
+      removeBlocker();
       return;
     }
 
@@ -140,6 +151,7 @@ export function SplashScreen() {
     return () => {
       clearTimeout(timer);
       window.removeEventListener("resize", onWindowResize);
+      removeBlocker();
 
       if (sceneRef.current) {
         cancelAnimationFrame(sceneRef.current.animationId);
