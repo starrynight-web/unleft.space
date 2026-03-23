@@ -220,21 +220,18 @@ const extendedMeta = [
     {
       showSplash && (
         <>
-          <!-- FOUC prevention: Immediately cover screen if no session storage flag -->
+          {/* FOUC prevention: cover screen on initial homepage load until SplashScreen React island mounts */}
           <script>
-            if (!sessionStorage.getItem("Unleft-splash-seen")) {
+            (function () {
               const blocker = document.createElement("div");
               blocker.id = "splash-blocker";
               blocker.style.cssText =
                 "position:fixed;inset:0;background-color:#050507;z-index:99;";
               document.body.insertBefore(blocker, document.body.firstChild);
-              window.addEventListener("load", () => {
-                const el = document.getElementById("splash-blocker");
-                if (el) el.style.display = "none";
-              });
-            }
+              // The SplashScreen component removes this once it mounts
+            })();
           </script>
-          <SplashScreen client:load />
+          <SplashScreen client:load transition:persist="splash-screen" />
         </>
       )
     }
